@@ -16,11 +16,23 @@ library(tidyverse)
 #### Download data ####
 # [...ADD CODE HERE TO DOWNLOAD...]
 
+# Load required library
+library(rvest)
+
+# Define the URL of the webpage
+url <- "https://www.prisonstudies.org/highest-to-lowest/prison_population_rate?field_region_taxonomy_tid=All"
+
+# Read the webpage
+page <- read_html(url)
+
+# Extract the table containing the data
+table_data <- html_table(page)[[1]]  # Assuming the data is in the first table
+
+# Save the data to a CSV file
 
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
+
+write_csv(table_data, "inputs/data/country_data.csv") 
 
          

@@ -17,9 +17,11 @@ bibliography: references.bib
 #| include: false
 #| warning: false
 #| message: false
-
+install.packages("haven")  # Install the haven package
+library(haven)  # Load the haven package
 library(tidyverse)
 library(palmerpenguins)
+library(dplyr)
 ```
 
 
@@ -32,43 +34,232 @@ The remainder of this paper is structured as follows. @sec-data....
 
 
 # Data {#sec-data}
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
-
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
+@fig-country
+```{r fig.height=8, fig.width=10 }
+#| label: fig-country
+#| fig-cap: Relationship between wing length and width
 #| echo: false
+#| warning: false
+#| message: false
 
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
+
+data <-  read.csv(file = here::here("outputs/data/clean_country_data.csv"))
+
+data <- data[order(-data$prison_population_rate), ]
+
+# Create the bar plot
+plot <- ggplot(data, aes(x =prison_population_rate, y = country)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme(axis.text.x = element_text(angle = 0, hjust = 1, vjust = 0.5)) +  # Rotate x-axis labels
+  labs(x = "Prison Population Rate", y = "country") +  # Add axis labels
+  ggtitle("Prison Population Rate by Country ")  # Add title
+
+print(plot)
+
 ```
 
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
+Some of our data is of penguins (@fig-bill), from @palmerpenguins.
+```{r fig.height=8, fig.width=10 }
 #| label: fig-planes
 #| fig-cap: Relationship between wing length and width
 #| echo: false
 #| warning: false
 #| message: false
 
-analysis_data <- read_csv(here::here("outputs/data/analysis_data.csv"))
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
+
+# Reading data
+# Read CSV file using here::here() for file path and header = TRUE
+x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
+
+x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
+
+# Ensure 'pop' column name is provided correctly in read_csv
+pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
+
+# Ensure 'pop' is extracted correctly from 'pop' data frame
+ind <- match(x1218$state, pop[,2])
+
+# Assign state population to x1218$pop
+x1218$pop <- pop[ind,3]
+
+# Calculate case rate for x1218
+x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
+x1 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"),
+               header=T) 
+
+x1 <- lapply(x1, function(i) { sub(",", "", i) })                    # data cleaning
+x1 <- lapply(x1, function(i) { sub("NR", NA, i) })
+x1[names(x1)[c(2:7,9)]]  <- lapply(x1[names(x1)[c(2:7,9)]], as.numeric)
+x1$incpop <- x1$Incarcerated.Positive/x1$Incarcerated.Case.rate.per.1.000
+
+ind <- match(x1218$state, x1$Prison.System)                           # matching states
+ccr <- data.frame(pop=1000*x1218$ccr,
+                  prisn=x1$Incarcerated.Case.rate.per.1.000[ind],
+                  state=x1$state[ind])                               # case rate dataframe
+ccr <- ccr[complete.cases(ccr),]
+
+o1 <- order(ccr[,2])
+n1 <- length(o1)
+
+
+
+par(fig=c(.1,1,0,1))
+plot(ccr[o1,2], 1:n1, pch="", xlim=c(0,800), xlab="", ylab="", yaxt='n')
+abline(h=1:n1, lty=5, col="gray")
+axis(1)
+points(ccr[o1,1], 1:n1, pch=17, col="blue")
+points(ccr[o1,2], 1:n1, pch=16, col="red")
+mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
+legend(450, 7, c("Prison","General population"), pch=c(16, 17),
+       col=c("red","blue"), bty="n", cex=1.1)
+
 ```
+
+```{r fig.height=8, fig.width=10}
+#| label: fig-bills2
+#| fig-cap: Bills of penguins
+#| echo: false
+
+x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
+
+x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
+
+# Ensure 'pop' column name is provided correctly in read_csv
+pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
+
+# Ensure 'pop' is extracted correctly from 'pop' data frame
+ind <- match(x1218$state, pop[,2])
+
+# Assign state population to x1218$pop
+x1218$pop <- pop[ind,3]
+
+# Calculate case rate for x1218
+x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
+x2 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"), header = TRUE) 
+
+# Data cleaning
+x2 <- lapply(x2, function(i) { gsub(",", "", i) })  # Remove commas
+x2 <- lapply(x2, function(i) { gsub("NR", NA, i) })  # Replace "NR" with NA
+x2[names(x2)[c(2:7, 9)]] <- lapply(x2[names(x2)[c(2:7, 9)]], as.numeric)  # Convert selected columns to numeric
+x2$incpop <- x2$Staff.Positive / x2$Staff.Case.rate.per.1.000
+
+# Match states
+ind <- match(x1218$state, x2$Prison.System)
+
+# Create case rate dataframe
+ccr <- data.frame(pop = 1000 * x1218$ccr,
+                  prisn = x2$Staff.Case.rate.per.1.000[ind],
+                  state = x2$state[ind])
+
+# Remove rows with NAs
+ccr <- ccr[complete.cases(ccr),]
+
+# Plotting
+o1 <- order(ccr[, 2])
+n1 <- length(o1)
+
+
+par(fig=c(.1,1,0,1))
+
+plot(ccr[o1, 2], 1:n1, pch="", xlim=c(0, 800), xlab="", ylab="", yaxt='n')
+abline(h=1:n1, lty=5, col="gray")
+axis(1)
+points(ccr[o1, 1], 1:n1, pch=17, col="blue")
+points(ccr[o1, 2], 1:n1, pch=16, col="green")
+mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
+legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
+       col=c("green", "blue"), bty="n", cex=1.1)
+
+
+```
+
+```{r }
+#| label: fig-plane
+#| fig-cap: Relationship between wing length and width
+#| echo: false
+#| warning: false
+#| message: false
+
+data_1 <- read_dta('../../inputs/data/spi86to16.dta')
+
+x <- data_1[data_1$admit==0,] 
+
+drugev  <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(drugev, wt, na.rm=T)))
+drugev  <- drugev[!is.nan(drugev[,3]),]
+vocev   <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(vocev, wt, na.rm=T)))
+vocev   <- data.matrix(vocev[!is.nan(vocev[,3]),])
+work    <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(work, wt, na.rm=T)))
+work    <- data.matrix(work[!is.nan(work[,3]),])
+edev    <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(edev, wt, na.rm=T)))
+edev    <- data.matrix(edev[!is.nan(edev[,3]),])
+
+dimnames(drugev) <- dimnames(vocev) <- dimnames(work) <- dimnames(edev) <-
+  list(NULL, c("region","year","xbar"))
+
+par(mfrow=c(1,4))
+par(fig=c(0,.29, 0,1))
+plot(drugev[drugev[,"region"]==1,"year"],
+     drugev[drugev[,"region"]==1,"xbar"]*100,
+     type="b", pch=16, main="Drug Program",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="Percent", xlab="")
+axis(1)
+axis(2)
+lines(drugev[drugev[,"region"]==2,"year"], drugev[drugev[,"region"]==2,"xbar"]*100,
+      type="b", pch=17, col="dodgerblue")
+lines(drugev[drugev[,"region"]==3,"year"], drugev[drugev[,"region"]==3,"xbar"]*100,
+      type="b", pch=18, col="red")
+lines(drugev[drugev[,"region"]==4,"year"], drugev[drugev[,"region"]==4,"xbar"]*100,
+      type="b", pch=19, col="blue")
+legend(1986, 80, c("Northeast","Midwest","South","West"),
+       pch=16:19, col=c("skyblue2", "dodgerblue", "red","blue"),
+       lty=1, bty="n", cex=1.1)
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.237,.527, 0,1))
+plot(edev[edev[,"region"]==1,"year"],
+     edev[edev[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Education",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(edev[edev[,"region"]==2,"year"], edev[edev[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(edev[edev[,"region"]==3,"year"], edev[edev[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(edev[edev[,"region"]==4,"year"], edev[edev[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.473,.763, 0,1))
+plot(vocev[vocev[,"region"]==1,"year"],
+     vocev[vocev[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Job Training",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(vocev[vocev[,"region"]==2,"year"], vocev[vocev[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(vocev[vocev[,"region"]==3,"year"], vocev[vocev[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(vocev[vocev[,"region"]==4,"year"], vocev[vocev[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.71,1.0, 0,1))
+plot(work[work[,"region"]==1,"year"],
+     work[work[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Work",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(work[work[,"region"]==2,"year"], work[work[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(work[work[,"region"]==3,"year"], work[work[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(work[work[,"region"]==4,"year"], work[work[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+
+
+
+```
+
+
+
+And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+
+
+
 
 Talk way more about it. 
 
@@ -107,33 +298,8 @@ We can use maths by including latex between dollar signs, for instance $\theta$.
 
 Our results are summarized in @tbl-modelresults.
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
 
-library(rstanarm)
 
-first_model <-
-  readRDS(file = here::here("outputs/models/first_model.rds"))
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
 
 
 
@@ -169,26 +335,6 @@ In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. 
 
 In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
 
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
 
 ## Diagnostics
 
@@ -196,20 +342,8 @@ posterior_vs_prior(first_model) +
 
 @fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
 
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
 
-plot(first_model, "trace")
 
-plot(first_model, "rhat")
-```
 
 
 
