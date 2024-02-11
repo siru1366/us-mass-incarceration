@@ -174,10 +174,44 @@ print(plot)
 
 ```
 
+# Discussion
+
+## Cumulative COVID-19 Case Rates among Those in Prison and General Population
+The closed and densely populated environment within prisons creates ideal conditions for the proliferation of large infectious diseases. The data stemming from the recent COVID-19 pandemic serves as a poignant illustration of this perspective, offering detailed insights into the heightened vulnerability of incarcerated populations to the rapid transmission and severe impact of contagious illnesses.
+
+
+The prison population stands out as a high-risk demographic group during the coronavirus disease 2019 (COVID-19) pandemic. In addition to residing in environments that are inherently challenging for practicing "social distancing," individuals within prisons often exhibit advanced age and possess multiple comorbidities. These characteristics are reflective of punitive policies that are discriminatory in nature and implemented worldwide (@elbek2020covid).
+
+When comparing the overall new coronavirus infection rate among the American population with the new coronavirus infection rate among prison inmates, a clear trend emerges according to the chart (@fig-planes). In the majority of states in the United States, the data pertaining to infection rates among prison inmates surpasses that of the general population by a significant margin.
+
+\ The significant number of individuals held in incarceration across the United States, combined with prevalent environmental conditions within correctional facilities—such as overcrowding, limited sanitation, inadequate healthcare access, subpar ventilation, and challenges in maintaining social distancing—have presented distinct and substantial challenges and risks for both incarcerated individuals and staff members throughout the pandemic (@nowotny2020covid).
+
+\ @novisky2020institutional indicates that the implementation of varied epidemic prevention policies across different states in the United States, alongside differences in the infrastructure of state prisons, has resulted in significant disparities in prisoner infection rates.
+
+\ In addition to replicating the original data, we have incorporated a comparison of the COVID-19 infection rate among prison staff with the overall U.S. COVID-19 infection rate. According to the figure(@fig-staff), the infection rate among prison staff surpasses the overall infection rate but remains lower than the new coronavirus infection rate among incarcerated individuals, positioning it roughly in the middle between the two. This observation underscores the vulnerable position of prisoners within correctional facilities during the pandemic.
 
 
 
+## Weaknesses
+### Bias in Data Analysis
+On one hand, it's noteworthy that a considerable portion of data regarding U.S. prisons exclusively pertains to men, leading to the phenomenon referred to as "big dick data." This term underscores the prevalence of male-dominated datasets, which not only underscores systemic bias and marginalization, particularly towards women but also sheds light on existing power dynamics. The absence or marginalization of women in these datasets not only mirrors prevailing power structures but also perpetuates gender-based biases and stereotypes. Such gender disparity distorts our comprehension of reality, reinforces harmful stereotypes and inequalities, and presents substantial hurdles to data-driven decision-making (@dignazio2020data).
 
+\ On the other hand, when examining racial data, it tends to be categorized broadly into whites and blacks. This practice not only reinforces the binary opposition between these two racial groups in the United States but also overlooks the experiences of other ethnic minorities.
+
+### Measurement error
+Utilizing data from various origins, a practice known as data fusion or integration, introduces complexities and hurdles that can result in measurement inaccuracies. Each dataset carries its unique biases, constraints, and inaccuracies stemming from variations in data collection methods, sampling approaches, measurement tools, and processing methodologies.
+
+The amalgamation of data from disparate sources often introduces disparities in quality, consistency, and reliability, leading to inconsistencies or inaccuracies in the merged datasets. Moreover, issues like incomplete data, absent values, and misclassification errors can compound measurement inaccuracies.
+
+## future
+On the one hand, similar data collection, statistical analysis, and comparative studies of Canadian prisons provide an attractive avenue for gaining insights due to Canada's geographic proximity to the United States and some shared cultural and legal frameworks. This similarity in land area and certain social aspects may allow for more meaningful comparisons and broader conclusions.
+
+
+On the other hand, a comparison of prison data from smaller Nordic countries, represented by Iceland, gives a markedly different context. These countries tend to have very different social norms, legal frameworks, and approaches to criminal justice than North American countries. Factors such as smaller population sizes, different cultural attitudes toward crime and punishment, and alternative approaches to rehabilitation may contribute to contrasting prison data.
+
+Apart from large-scale studies, conducting small controlled experiments could offer valuable insights into the influence of different prison environments on the physical and mental well-being of inmates.
+
+Studying the experiences of prison staff can provide insight into challenges within correctional facilities and facilitate the development of effective policies. Likewise, exploring the impact of incarceration on families can provide greater insight into broader social impacts, including emotional distress and financial stress. Including their voices in research and policy discussions is critical to addressing the complex issues surrounding incarceration and reentry.
 
 
 
@@ -403,7 +437,7 @@ legend(450, 7, c("Prison","General population"), pch=c(16, 17),
 
 
 ```{r fig.height=10, fig.width=10}
-#| label: Bills of penguins
+#| label: fig-staff
 #| fig-cap: Cumulative COVID-19 Case Rates among Those in Prison Staff and General Population
 #| echo: false
 
@@ -476,27 +510,9 @@ legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
 
 
 
-# Discussion
-
-## Cumulative COVID-19 Case Rates among Those in Prison and General Population
-The closed and densely populated environment within prisons creates ideal conditions for the proliferation of large infectious diseases. The data stemming from the recent COVID-19 pandemic serves as a poignant illustration of this perspective, offering detailed insights into the heightened vulnerability of incarcerated populations to the rapid transmission and severe impact of contagious illnesses.
 
 
-The prison population stands out as a high-risk demographic group during the coronavirus disease 2019 (COVID-19) pandemic. In addition to residing in environments that are inherently challenging for practicing "social distancing," individuals within prisons often exhibit advanced age and possess multiple comorbidities. These characteristics are reflective of punitive policies that are discriminatory in nature and implemented worldwide (@elbek2020covid).
 
-When comparing the overall new coronavirus infection rate among the American population with the new coronavirus infection rate among prison inmates, a clear trend emerges according to the chart (@fig-planes). In the majority of states in the United States, the data pertaining to infection rates among prison inmates surpasses that of the general population by a significant margin.
-
-\ The significant number of individuals held in incarceration across the United States, combined with prevalent environmental conditions within correctional facilities—such as overcrowding, limited sanitation, inadequate healthcare access, subpar ventilation, and challenges in maintaining social distancing—have presented distinct and substantial challenges and risks for both incarcerated individuals and staff members throughout the pandemic (@nowotny2020covid).
-
-\ @novisky2020institutional indicates that the implementation of varied epidemic prevention policies across different states in the United States, alongside differences in the infrastructure of state prisons, has resulted in significant disparities in prisoner infection rates.
-
-## Second discussion point
-
-## Third discussion point
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
 
 \newpage
 
@@ -510,15 +526,6 @@ Weaknesses and next steps should also be included.
 # Model details {#sec-model-details}
 
 ## Posterior predictive check
-
-
-
-
-## Diagnostics
-
-
-
-
 
 
 
