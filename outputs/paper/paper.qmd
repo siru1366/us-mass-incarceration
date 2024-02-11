@@ -40,7 +40,7 @@ The remainder of this paper is structured as follows. @sec-data....
 
 # Data {#sec-data}
 
-##Source
+## Source
 The paper used for replication is "Inside the Box: Safety, Health, and Isolation in Prison," which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
 
 Sourcebook of Criminal Justice Statistics, Bureau of Justice Statistics Report, Jail Inmates in 2018, U.S. Population FRED Data, World Prison Population Data, and Western B. and Pettit B data
@@ -103,6 +103,13 @@ Cumulative COVID-19 Case Rates among Those in Prison and General Population, by 
 
 # Result
 ## Over trend
+
+Mass incarceration, as outlined by Garland (2001), refers to the historical phenomenon characterized by exceptionally high rates of imprisonment, particularly affecting marginalized populations. It signifies the confinement of vast numbers of individuals within prisons, coupled with the enduring legal and financial barriers they encounter upon reintegration into society, as described by Younes (2014).
+
+From 1925 to 1972, the incarceration rate in the United States exhibited a period of relative stability, punctuated by minor fluctuations. However, since the 1970s, the number of inmates in the U.S. has surged dramatically, increasing by over sixfold, as noted by Manza and Uggen (2006: 95).
+Following its peak in 2007, incarceration rates have seen a slight decline over the past decade. However, they remain approximately five times higher than the average rate observed throughout the 20th century.
+
+This underscores the continued importance of mass incarceration as a pressing issue in the United States. It highlights the need for further research to fully examine its effects on various aspects including health, property ownership and personal growth. Furthermore, understanding its socioeconomic impact and exploring effective rehabilitation and reintegration strategies are important steps to address this multifaceted problem and build a more just and equitable society.
 @fig-over
 ```{r fig.height=10, fig.width=6 }
 #| label: fig-over
@@ -129,6 +136,11 @@ legend(1925, 770, c("Prison and jail","Prison only"), lwd=2,
 abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 
 ```
+In addition to examining the trajectory of incarceration rates within the United States over time, it is equally imperative to conduct horizontal comparisons by scrutinizing incarceration rates across different countries. Such comparisons enable us to discern whether mass incarceration is a global phenomenon or if it manifests as a more acute issue within the United States.
+\ Data regarding prison population rates per 100,000 of the national population is accessible through the online public data platform World Prison Brief. This resource provides updated country information on a monthly basis, drawing primarily from governmental or other authoritative sources, thereby ensuring the data's timeliness and reliability.
+\ After acquiring the most recent data, we encountered complexity in processing the information for over 200 countries. Consequently, we streamlined our analysis by selecting a subset of 20 representative countries. Subsequently, we utilized this refined dataset to generate informative charts and visualizations.
+
+\ It can be readily inferred from graphical representations and pertinent research that the United States holds the title of the world's foremost incarcerator, detaining a higher percentage of its population than any other nation.
 
 
 @fig-country
@@ -270,8 +282,92 @@ legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
 
 
 ```
+```{r fig.height=6, fig.width=8}
+#| label: fig-admit
+#| fig-cap: Relationship between wing length and width
+#| echo: false
+#| warning: false
+#| message: false
 
-```{r }
+data_1 <- read_dta('../../inputs/data/spi86to16.dta')
+
+x <- data_1[data_1$admit==1,] 
+
+drugev  <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(drugev, wt, na.rm=T)))
+drugev  <- drugev[!is.nan(drugev[,3]),]
+vocev   <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(vocev, wt, na.rm=T)))
+vocev   <- data.matrix(vocev[!is.nan(vocev[,3]),])
+work    <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(work, wt, na.rm=T)))
+work    <- data.matrix(work[!is.nan(work[,3]),])
+edev    <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(edev, wt, na.rm=T)))
+edev    <- data.matrix(edev[!is.nan(edev[,3]),])
+
+dimnames(drugev) <- dimnames(vocev) <- dimnames(work) <- dimnames(edev) <-
+  list(NULL, c("region","year","xbar"))
+
+par(mfrow=c(1,4))
+par(fig=c(0,.29, 0,1))
+plot(drugev[drugev[,"region"]==1,"year"],
+     drugev[drugev[,"region"]==1,"xbar"]*100,
+     type="b", pch=16, main="Drug Program",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="Percent", xlab="")
+axis(1)
+axis(2)
+lines(drugev[drugev[,"region"]==2,"year"], drugev[drugev[,"region"]==2,"xbar"]*100,
+      type="b", pch=17, col="dodgerblue")
+lines(drugev[drugev[,"region"]==3,"year"], drugev[drugev[,"region"]==3,"xbar"]*100,
+      type="b", pch=18, col="red")
+lines(drugev[drugev[,"region"]==4,"year"], drugev[drugev[,"region"]==4,"xbar"]*100,
+      type="b", pch=19, col="blue")
+legend(1986, 80, c("Northeast","Midwest","South","West"),
+       pch=16:19, col=c("skyblue2", "dodgerblue", "red","blue"),
+       lty=1, bty="n", cex=1.1)
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.237,.527, 0,1))
+plot(edev[edev[,"region"]==1,"year"],
+     edev[edev[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Education",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(edev[edev[,"region"]==2,"year"], edev[edev[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(edev[edev[,"region"]==3,"year"], edev[edev[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(edev[edev[,"region"]==4,"year"], edev[edev[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.473,.763, 0,1))
+plot(vocev[vocev[,"region"]==1,"year"],
+     vocev[vocev[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Job Training",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(vocev[vocev[,"region"]==2,"year"], vocev[vocev[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(vocev[vocev[,"region"]==3,"year"], vocev[vocev[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(vocev[vocev[,"region"]==4,"year"], vocev[vocev[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+par(new=T)
+par(fig=c(.71,1.0, 0,1))
+plot(work[work[,"region"]==1,"year"],
+     work[work[,"region"]==1,"xbar"]*100, type="b", pch=16, main="Work",
+     xlim=c(1986, 2016), ylim=c(0,80), col="skyblue2",
+     axes=F, ylab="", xlab="")
+axis(1)
+lines(work[work[,"region"]==2,"year"], work[work[,"region"]==2,"xbar"]*100, type="b", pch=17, col="dodgerblue")
+lines(work[work[,"region"]==3,"year"], work[work[,"region"]==3,"xbar"]*100, type="b", pch=18, col="red")
+lines(work[work[,"region"]==4,"year"], work[work[,"region"]==4,"xbar"]*100, type="b", pch=19, col="blue")
+abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
+
+
+
+```
+
+
+
+
+@fig-plane
+
+```{r fig.height=6, fig.width=8 }
 #| label: fig-plane
 #| fig-cap: Relationship between wing length and width
 #| echo: false
@@ -353,7 +449,7 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+
 
 
 
@@ -362,38 +458,15 @@ Talk way more about it.
 
 
 
-# Model
 
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
 
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
 
 
-# Results
 
-Our results are summarized in @tbl-modelresults.
+
 
 
 
@@ -428,16 +501,11 @@ Weaknesses and next steps should also be included.
 
 ## Posterior predictive check
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
 
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
 
 
 ## Diagnostics
 
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
 
 
 

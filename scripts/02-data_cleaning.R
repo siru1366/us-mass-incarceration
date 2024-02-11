@@ -17,10 +17,10 @@ cleaned_data <-
   raw_data |>
   janitor::clean_names() |>
   select(title, prison_population_rate) |>
-  filter(title%in% c ("United States of America","Turkey","United Kingdom: England & Wales","Spain",
+  filter(title%in% c ("United States of America","Croatia","United Kingdom: England & Wales","Spain",
                          "France","Austria", "Italy","Belgium","Switzerland",
                       "Ireland", "Germany" ,"Denmark" ,"Norway","Netherlands", "Sweden",
-                      "Finland","Chile","Canada","Norway","Singapore","Japan","Brazil"))|>
+                      "Finland","Egypt","Canada","Norway","Singapore","Japan","Iceland"))|>
 rename(country=title)
 
  
