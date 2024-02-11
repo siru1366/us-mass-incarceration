@@ -5,7 +5,7 @@ author:
   - Dong Jun Yoon
   - Sirui Tan
 thanks: "Code and data are available at: https://github.com/siru1366/us-mass-incarceration.git."
-date: today
+date:  February 09, 2024
 date-format: long
 abstract: "This social science research focuses on the impact of prisons on crime rates and socioeconomic disparities. However, the penal institutions are often disregarded, creating a significant gap in understanding its true effect. This paper takes a look at the prison, their function in rehabilitation efforts, their role as setting for violence, healthcare provision, and the isolation experienced in solitary confinement. Recent studies indicate that fewer inmates are involved in programs now compared to the 1980’s, and prisoners face more violence, sickness, and isolation. These conditions question if prisons are really treating people with dignity and respect, and how these acts will affect people who recently joined the society again. "
 format: pdf
@@ -136,14 +136,21 @@ legend(1925, 770, c("Prison and jail","Prison only"), lwd=2,
 abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 
 ```
+## Comparing
 In addition to examining the trajectory of incarceration rates within the United States over time, it is equally imperative to conduct horizontal comparisons by scrutinizing incarceration rates across different countries. Such comparisons enable us to discern whether mass incarceration is a global phenomenon or if it manifests as a more acute issue within the United States.
+
 \ Data regarding prison population rates per 100,000 of the national population is accessible through the online public data platform World Prison Brief. This resource provides updated country information on a monthly basis, drawing primarily from governmental or other authoritative sources, thereby ensuring the data's timeliness and reliability.
-\ After acquiring the most recent data, we encountered complexity in processing the information for over 200 countries. Consequently, we streamlined our analysis by selecting a subset of 20 representative countries. Subsequently, we utilized this refined dataset to generate informative charts and visualizations.
+
+\ After acquiring the most recent data, we encountered complexity in processing the information for over 200 countries. Consequently, we streamlined our analysis by selecting a subset of 20 representative countries. Subsequently, we utilized this refined dataset to generate informative charts and visualizations(@fig-country)
+
+\ In addition to the United States, which serves as the primary focus of our research, the selected subset of 19 countries encompasses a diverse range of geographical locations across all seven continents. These countries represent various levels of development, including developed nations, developing regions, and areas classified as less economically developed. Moreover, the chosen countries vary in terms of land area, with some comparable in size to the United States, such as Canada and, to a lesser extent, Iceland. This diverse selection ensures a comprehensive analysis that accounts for a wide spectrum of geographic, developmental, and size-related factors.
 
 \ It can be readily inferred from graphical representations and pertinent research that the United States holds the title of the world's foremost incarcerator, detaining a higher percentage of its population than any other nation.
 
+\ It is noteworthy that the incarceration rates (per 100,000) observed in the other 19 countries typically hover around 100. In stark contrast, the United States exhibits an incarceration rate exceeding four times this average. This significant disparity underscores the exceptional nature of the U.S. incarceration system compared to its international counterparts.
 
-@fig-country
+
+
 ```{r fig.height=8, fig.width=10 }
 #| label: fig-country
 #| fig-cap: Relationship between wing length and width
@@ -167,121 +174,13 @@ print(plot)
 
 ```
 
-Some of our data is of penguins (@fig-bill), from @palmerpenguins.
-```{r fig.height=8, fig.width=10 }
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
 
 
 
-# Reading data
-# Read CSV file using here::here() for file path and header = TRUE
-x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
-
-x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
-
-# Ensure 'pop' column name is provided correctly in read_csv
-pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
-
-# Ensure 'pop' is extracted correctly from 'pop' data frame
-ind <- match(x1218$state, pop[,2])
-
-# Assign state population to x1218$pop
-x1218$pop <- pop[ind,3]
-
-# Calculate case rate for x1218
-x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
-x1 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"),
-               header=T) 
-
-x1 <- lapply(x1, function(i) { sub(",", "", i) })                    # data cleaning
-x1 <- lapply(x1, function(i) { sub("NR", NA, i) })
-x1[names(x1)[c(2:7,9)]]  <- lapply(x1[names(x1)[c(2:7,9)]], as.numeric)
-x1$incpop <- x1$Incarcerated.Positive/x1$Incarcerated.Case.rate.per.1.000
-
-ind <- match(x1218$state, x1$Prison.System)                           # matching states
-ccr <- data.frame(pop=1000*x1218$ccr,
-                  prisn=x1$Incarcerated.Case.rate.per.1.000[ind],
-                  state=x1$state[ind])                               # case rate dataframe
-ccr <- ccr[complete.cases(ccr),]
-
-o1 <- order(ccr[,2])
-n1 <- length(o1)
 
 
 
-par(fig=c(.1,1,0,1))
-plot(ccr[o1,2], 1:n1, pch="", xlim=c(0,800), xlab="", ylab="", yaxt='n')
-abline(h=1:n1, lty=5, col="gray")
-axis(1)
-points(ccr[o1,1], 1:n1, pch=17, col="blue")
-points(ccr[o1,2], 1:n1, pch=16, col="red")
-mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
-legend(450, 7, c("Prison","General population"), pch=c(16, 17),
-       col=c("red","blue"), bty="n", cex=1.1)
 
-```
-
-```{r fig.height=8, fig.width=10}
-#| label: fig-bills2
-#| fig-cap: Bills of penguins
-#| echo: false
-
-x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
-
-x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
-
-# Ensure 'pop' column name is provided correctly in read_csv
-pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
-
-# Ensure 'pop' is extracted correctly from 'pop' data frame
-ind <- match(x1218$state, pop[,2])
-
-# Assign state population to x1218$pop
-x1218$pop <- pop[ind,3]
-
-# Calculate case rate for x1218
-x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
-x2 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"), header = TRUE) 
-
-# Data cleaning
-x2 <- lapply(x2, function(i) { gsub(",", "", i) })  # Remove commas
-x2 <- lapply(x2, function(i) { gsub("NR", NA, i) })  # Replace "NR" with NA
-x2[names(x2)[c(2:7, 9)]] <- lapply(x2[names(x2)[c(2:7, 9)]], as.numeric)  # Convert selected columns to numeric
-x2$incpop <- x2$Staff.Positive / x2$Staff.Case.rate.per.1.000
-
-# Match states
-ind <- match(x1218$state, x2$Prison.System)
-
-# Create case rate dataframe
-ccr <- data.frame(pop = 1000 * x1218$ccr,
-                  prisn = x2$Staff.Case.rate.per.1.000[ind],
-                  state = x2$state[ind])
-
-# Remove rows with NAs
-ccr <- ccr[complete.cases(ccr),]
-
-# Plotting
-o1 <- order(ccr[, 2])
-n1 <- length(o1)
-
-
-par(fig=c(.1,1,0,1))
-
-plot(ccr[o1, 2], 1:n1, pch="", xlim=c(0, 800), xlab="", ylab="", yaxt='n')
-abline(h=1:n1, lty=5, col="gray")
-axis(1)
-points(ccr[o1, 1], 1:n1, pch=17, col="blue")
-points(ccr[o1, 2], 1:n1, pch=16, col="green")
-mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
-legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
-       col=c("green", "blue"), bty="n", cex=1.1)
-
-
-```
 ```{r fig.height=6, fig.width=8}
 #| label: fig-admit
 #| fig-cap: Relationship between wing length and width
@@ -365,7 +264,7 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 
 
-@fig-plane
+
 
 ```{r fig.height=6, fig.width=8 }
 #| label: fig-plane
@@ -447,20 +346,123 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 ```
 
+```{r fig.height=10, fig.width=10 }
+#| label: fig-planes
+#| fig-cap: Cumulative COVID-19 Case Rates among Those in Prison and General Population, by State
+#| echo: false
+#| warning: false
+#| message: false
+
+# Reading data
+# Read CSV file using here::here() for file path and header = TRUE
+x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
+
+x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
+
+# Ensure 'pop' column name is provided correctly in read_csv
+pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
+
+# Ensure 'pop' is extracted correctly from 'pop' data frame
+ind <- match(x1218$state, pop[,2])
+
+# Assign state population to x1218$pop
+x1218$pop <- pop[ind,3]
+
+# Calculate case rate for x1218
+x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
+x1 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"),
+               header=T) 
+
+x1 <- lapply(x1,  function(i) { gsub(",", "", i) })                    # data cleaning
+x1 <- lapply(x1, function(i) { gsub("NR", NA, i) })
+x1[names(x1)[c(2:7,9)]]  <- lapply(x1[names(x1)[c(2:7,9)]], as.numeric)
+x1$incpop <- x1$Incarcerated.Positive/x1$Incarcerated.Case.rate.per.1.000
+
+ind <- match(x1218$state, x1$Prison.System)                           # matching states
+ccr <- data.frame(pop=1000*x1218$ccr,
+                  prisn=x1$Incarcerated.Case.rate.per.1.000[ind],
+                  state=x1$state[ind])                               # case rate dataframe
+ccr <- ccr[complete.cases(ccr),]
+
+o1 <- order(ccr[,2])
+n1 <- length(o1)
+
+
+
+par(fig=c(.1,1,0,1))
+plot(ccr[o1,2], 1:n1, pch="", xlim=c(0,800), xlab="", ylab="", yaxt='n')
+abline(h=1:n1, lty=5, col="gray")
+axis(1)
+points(ccr[o1,1], 1:n1, pch=17, col="blue")
+points(ccr[o1,2], 1:n1, pch=16, col="red")
+mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
+legend(450, 7, c("Prison","General population"), pch=c(16, 17),
+       col=c("red","blue"), bty="n", cex=1.1)
+
+```
+
+
+```{r fig.height=10, fig.width=10}
+#| label: Bills of penguins
+#| fig-cap: Cumulative COVID-19 Case Rates among Those in Prison Staff and General Population
+#| echo: false
+
+x <- read.csv(file = here::here("inputs/data/all-states-history.csv"), header = TRUE)
+
+x1218 <- x[x$date == "2020-12-18",]   # Subset data for 12/18/2020
+
+# Ensure 'pop' column name is provided correctly in read_csv
+pop <- read.csv(file = here::here("inputs/data/statepop.csv"), header = FALSE)
+
+# Ensure 'pop' is extracted correctly from 'pop' data frame
+ind <- match(x1218$state, pop[,2])
+
+# Assign state population to x1218$pop
+x1218$pop <- pop[ind,3]
+
+# Calculate case rate for x1218
+x1218$ccr <- x1218$positive / (x1218$pop * 1e6)
+x2 <- read.csv(file = here::here("inputs/data/COVID-19 Cases in State and Federal Prison Systems.csv"), header = TRUE) 
+
+# Data cleaning
+x2 <- lapply(x2, function(i) { gsub(",", "", i) })  # Remove commas
+x2 <- lapply(x2, function(i) { gsub("NR", NA, i) })  # Replace "NR" with NA
+x2[names(x2)[c(2:7, 9)]] <- lapply(x2[names(x2)[c(2:7, 9)]], as.numeric)  # Convert selected columns to numeric
+x2$incpop <- x2$Staff.Positive / x2$Staff.Case.rate.per.1.000
+
+# Match states
+ind <- match(x1218$state, x2$Prison.System)
+
+# Create case rate dataframe
+ccr <- data.frame(pop = 1000 * x1218$ccr,
+                  prisn = x2$Staff.Case.rate.per.1.000[ind],
+                  state = x2$state[ind])
+
+# Remove rows with NAs
+ccr <- ccr[complete.cases(ccr),]
+
+# Plotting
+o1 <- order(ccr[, 2])
+n1 <- length(o1)
+
+
+par(fig=c(.1,1,0,1))
+
+plot(ccr[o1, 2], 1:n1, pch="", xlim=c(0, 800), xlab="", ylab="", yaxt='n')
+abline(h=1:n1, lty=5, col="gray")
+axis(1)
+points(ccr[o1, 1], 1:n1, pch=17, col="blue")
+points(ccr[o1, 2], 1:n1, pch=16, col="green")
+mtext(ccr$state[o1], side=2, at=1:n1, las=1, line=.5, cex=.75)
+legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
+       col=c("green", "blue"), bty="n", cex=1.1)
+
+
+```
 
 
 
 
-
-
-
-Talk way more about it. 
-
-
-
-
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
 
 
@@ -476,9 +478,15 @@ We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+## Cumulative COVID-19 Case Rates among Those in Prison and General Population
+The closed and densely populated environment within prisons creates ideal conditions for the proliferation of large infectious diseases. The data stemming from the recent COVID-19 pandemic serves as a poignant illustration of this perspective, offering detailed insights into the heightened vulnerability of incarcerated populations to the rapid transmission and severe impact of contagious illnesses.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+
+The prison population stands out as a high-risk demographic group during the coronavirus disease 2019 (COVID-19) pandemic. In addition to residing in environments that are inherently challenging for practicing "social distancing," individuals within prisons often exhibit advanced age and possess multiple comorbidities. These characteristics are reflective of punitive policies that are discriminatory in nature and implemented worldwide (@elbek2020covid).
+
+According to the chart (@fig-planes), when comparing the overall new coronavirus infection rate among the American population with the new coronavirus infection rate among prison inmates, a clear trend emerges. In the majority of states in the United States, the data pertaining to infection rates among prison inmates surpasses that of the general population by a significant margin.
+
+\ The significant number of individuals held in incarceration across the United States, combined with prevalent environmental conditions within correctional facilities—such as overcrowding, limited sanitation, inadequate healthcare access, subpar ventilation, and challenges in maintaining social distancing—have presented distinct and substantial challenges and risks for both incarcerated individuals and staff members throughout the pandemic (@nowotny2020covid).
 
 ## Second discussion point
 
