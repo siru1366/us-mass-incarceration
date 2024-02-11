@@ -1,13 +1,13 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Delving into the World Inside Prisons for Safety, Health, and Isolation"
+
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Dong Jun Yoon
+  - Sirui Tan
+thanks: "Code and data are available at: https://github.com/siru1366/us-mass-incarceration.git."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This social science research focuses on the impact of prisons on crime rates and socioeconomic disparities. However, the penal institutions are often disregarded, creating a significant gap in understanding its true effect. This paper takes a look at the prison, their function in rehabilitation efforts, their role as setting for violence, healthcare provision, and the isolation experienced in solitary confinement. Recent studies indicate that fewer inmates are involved in programs now compared to the 1980’s, and prisoners face more violence, sickness, and isolation. These conditions question if prisons are really treating people with dignity and respect, and how these acts will affect people who recently joined the society again. "
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -18,6 +18,8 @@ bibliography: references.bib
 #| warning: false
 #| message: false
 install.packages("haven")  # Install the haven package
+install.packages("openxlsx")
+library(openxlsx)
 library(haven)  # Load the haven package
 library(tidyverse)
 library(palmerpenguins)
@@ -27,13 +29,108 @@ library(dplyr)
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. 
+This paper explores how prisons impact crime and inequality. Prisons are often overlooked compared to other institutions such as schools or hospitals. We are focusing on the US, where the concept of “mass incarceration” is a big issue, in other words there are a lot of people in prison, especially Black men with limited education. This mostly happens due to strict laws against Black men and inequality that rise upon the issue. 
+Researchers have studied incarceration in various angles, examining its effects on how prisons affect crime rates, labor markets, health outcomes, and family dynamics. Despite debates over rehabilitation, it is still hard for them to get jobs and be accepted in society. 
+This paper takes a unique perspective, where we view US penal institutions as “total institutions” where individuals face constricted control and minimal autonomy. We are exploring key issues such as overcrowding, violence, health challenges, and the harsh realities of solitary confinement. By understanding what happens inside prisons, we can gain a deeper understanding of the problems of mass incarceration and work towards making things better. 
+→ We can add details after we decide what data and model we are going to use (Ex. Rate has increased 80% over 1990 to 2020) 
 
 The remainder of this paper is structured as follows. @sec-data....
 
 
 
 # Data {#sec-data}
+
+##Source
+The paper used for replication is "Inside the Box: Safety, Health, and Isolation in Prison," which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
+
+Sourcebook of Criminal Justice Statistics, Bureau of Justice Statistics Report, Jail Inmates in 2018, U.S. Population FRED Data, World Prison Population Data, and Western B. and Pettit B data
+
+## Methodology
+All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
+
+ mass incarceration.xlsx
+ 
+ incarceration 1925-2019
+ 
+
+## Features
+mass incarceration.xlsx
+ 
+ incarceration 1925-2019
+ Year:1925-2019
+ Prison: integer number
+ Prison rate per(100k) : easy to read and compare
+ Jail
+ Total
+ Population
+ Total Rate
+ 
+ world incarceration rates
+ rate
+ rate18
+ 
+ cumulative risk
+ race :w(white) b(black) Lack of data on other ethnic minorities
+
+ education
+ cohort
+ risk
+
+COVID-19 Cases in State and Federal Prison Systems.csv：
+Prison System
+Incarcerated Tested
+Incarcerated Positive,
+Incarcerated Deaths,
+Staff Positive,
+Staff Deaths,
+Incarcerated Case rate per 1,000
+Scrape Date
+Staff Case rate per 1,000
+state
+
+statepop.csv:
+sate
+abbreviation
+
+all-states-history.csv:
+
+## Measurement:
+Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region
+Original data comes from two prison questionnaires
+For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
+
+Cumulative COVID-19 Case Rates among Those in Prison and General Population, by State: March 2020 to January 2021
+
+# Result
+## Over trend
+@fig-over
+```{r fig.height=10, fig.width=6 }
+#| label: fig-over
+#| fig-cap: US Incarceration, 1925-2018
+#| echo: false
+#| warning: false
+#| message: false
+
+library(openxlsx)
+
+file_path <- here::here("inputs/data/mass incarceration.xlsx")
+
+# Read the Excel file
+x0 <- read.xlsx(file_path, sheet = 1)
+par(mfrow=c(3,1))
+par(fig=c(.05,.95, 2/3-.02, 1))
+plot(x0$Year, x0$Prison.Rate.per.100k, type="l", col="blue",
+     xlim=c(1920, 2020), ylim=c(0, 800),
+     xlab="", ylab="Incarceration Rate (per 100,000)", lty=1, lwd=2)
+title(" US Incarceration, 1925-2018")
+lines(x0$Year, x0$TotalRate, lty=2, col="red", lwd=2)
+legend(1925, 770, c("Prison and jail","Prison only"), lwd=2,
+       lty=c(2,1), col=c("red","blue"), bty="n")
+abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
+
+```
+
+
 @fig-country
 ```{r fig.height=8, fig.width=10 }
 #| label: fig-country
