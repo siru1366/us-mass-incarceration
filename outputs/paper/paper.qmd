@@ -484,9 +484,11 @@ The closed and densely populated environment within prisons creates ideal condit
 
 The prison population stands out as a high-risk demographic group during the coronavirus disease 2019 (COVID-19) pandemic. In addition to residing in environments that are inherently challenging for practicing "social distancing," individuals within prisons often exhibit advanced age and possess multiple comorbidities. These characteristics are reflective of punitive policies that are discriminatory in nature and implemented worldwide (@elbek2020covid).
 
-According to the chart (@fig-planes), when comparing the overall new coronavirus infection rate among the American population with the new coronavirus infection rate among prison inmates, a clear trend emerges. In the majority of states in the United States, the data pertaining to infection rates among prison inmates surpasses that of the general population by a significant margin.
+When comparing the overall new coronavirus infection rate among the American population with the new coronavirus infection rate among prison inmates, a clear trend emerges according to the chart (@fig-planes). In the majority of states in the United States, the data pertaining to infection rates among prison inmates surpasses that of the general population by a significant margin.
 
 \ The significant number of individuals held in incarceration across the United States, combined with prevalent environmental conditions within correctional facilities—such as overcrowding, limited sanitation, inadequate healthcare access, subpar ventilation, and challenges in maintaining social distancing—have presented distinct and substantial challenges and risks for both incarcerated individuals and staff members throughout the pandemic (@nowotny2020covid).
+
+\ @novisky2020institutional indicates that the implementation of varied epidemic prevention policies across different states in the United States, alongside differences in the infrastructure of state prisons, has resulted in significant disparities in prisoner infection rates.
 
 ## Second discussion point
 
