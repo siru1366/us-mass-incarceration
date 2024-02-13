@@ -24,9 +24,11 @@ install.packages("haven")  # Install the haven package
 install.packages("openxlsx")
 install.packages("knitr")
 install.packages("kableExtra")
+install.packages("readxl")
+library(readxl)
 library(kableExtra)
 library(openxlsx)
-library(haven)  # Load the haven package
+library(haven)  
 library(tidyverse)
 library(palmerpenguins)
 library(dplyr)
@@ -104,24 +106,21 @@ This underscores the continued importance of mass incarceration as a pressing is
 #| warning: false
 #| message: false
 
-library(openxlsx)
-
 file_path <- here::here("inputs/data/mass incarceration.xlsx")
-
-# Read the Excel file
 x0 <- read.xlsx(file_path, sheet = 1)
+                 
 par(mfrow=c(3,1))
 par(fig=c(.05,.95, 2/3-.02, 1))
 plot(x0$Year, x0$Prison.Rate.per.100k, type="l", col="blue",
      xlim=c(1920, 2020), ylim=c(0, 800),
      xlab="", ylab="Incarceration Rate (per 100,000)", lty=1, lwd=2)
-title(" US Incarceration, 1925-2018")
 lines(x0$Year, x0$TotalRate, lty=2, col="red", lwd=2)
 legend(1925, 770, c("Prison and jail","Prison only"), lwd=2,
        lty=c(2,1), col=c("red","blue"), bty="n")
 abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 
 ```
+
 ```{r fig.height=6, fig.width=6 }
 #| label: fig-men
 #| fig-cap: Men’s cumulative imprisonment risk, by cohort
@@ -129,14 +128,13 @@ abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 #| warning: false
 #| message: false
 
-library(openxlsx)
 
 file_path <- here::here("inputs/data/mass incarceration.xlsx")
 
 # Read the Excel file
 
-data <- read.xlsx(file_path, sheet = 3)
-data <- data %>%
+men_data <- read.xlsx(file_path, sheet = 3)
+men_data <- men_data %>%
   mutate(
     race = case_when(
       race == "W" ~ "White",
@@ -149,7 +147,7 @@ data <- data %>%
       TRUE ~ cohort
     )
   )
-ggplot(data, aes(x = race, y = risk, fill = education)) +
+ggplot(men_data, aes(x = race, y = risk, fill = education)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~cohort) +
   labs(
@@ -188,12 +186,12 @@ In addition to examining the trajectory of incarceration rates within the United
 #| message: false
 
 
-data <-  read.csv(file = here::here("outputs/data/clean_country_data.csv"))
+c_data <-  read.csv(file = here::here("outputs/data/clean_country_data.csv"))
 
-data <- data[order(-data$prison_population_rate), ]
+c_data <- data[order(-data$prison_population_rate), ]
 
 # Create the bar plot
-plot <- ggplot(data, aes(x =prison_population_rate, y = country)) +
+plot <- ggplot(c_data, aes(x =prison_population_rate, y = country)) +
   geom_bar(stat = "identity", fill = "skyblue") +
   theme(axis.text.x = element_text(angle = 0, hjust = 1, vjust = 0.5)) +  # Rotate x-axis labels
   labs(x = "Prison Population Rate", y = "country")  # Add axis labels
@@ -226,9 +224,9 @@ The processed data only provides a rough division of the United States into four
 #| warning: false
 #| message: false
 
-data_1 <- read_dta('../../inputs/data/spi86to16.dta')
+data_3 <- read_dta('../../inputs/data/spi86to16.dta')
 
-x <- data_1[data_1$admit==1,] 
+x <- data_3[data_3$admit==1,] 
 
 drugev  <- data.matrix(x %>% group_by(region, year) %>% summarize(weighted.mean(drugev, wt, na.rm=T)))
 drugev  <- drugev[!is.nan(drugev[,3]),]

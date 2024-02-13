@@ -7,17 +7,12 @@
 # Pre-requisites: [...UPDATE THIS...]
 # Any other information needed? [...UPDATE THIS...]
 
-
 #### Workspace setup ####
-library(opendatatoronto)
+library(rvest)
 library(tidyverse)
-# [...UPDATE THIS...]
+
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
-
-# Load required library
-library(rvest)
 
 # Define the URL of the webpage
 url <- "https://www.prisonstudies.org/highest-to-lowest/prison_population_rate?field_region_taxonomy_tid=All"
@@ -26,10 +21,7 @@ url <- "https://www.prisonstudies.org/highest-to-lowest/prison_population_rate?f
 page <- read_html(url)
 
 # Extract the table containing the data
-table_data <- html_table(page)[[1]]  # Assuming the data is in the first table
-
-# Save the data to a CSV file
-
+table_data <- html_table(page)[[1]]  
 
 #### Save data ####
 
