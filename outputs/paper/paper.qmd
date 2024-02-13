@@ -7,11 +7,14 @@ author:
 thanks: "Code and data are available at: https://github.com/siru1366/us-mass-incarceration.git."
 date:  February 09, 2024
 date-format: long
-abstract: "This social science research focuses on the impact of prisons on crime rates and socioeconomic disparities. However, the penal institutions are often disregarded, creating a significant gap in understanding its true effect. This paper takes a look at the prison, their function in rehabilitation efforts, their role as setting for violence, healthcare provision, and the isolation experienced in solitary confinement. Recent studies indicate that fewer inmates are involved in programs now compared to the 1980’s, and prisoners face more violence, sickness, and isolation. These conditions question if prisons are really treating people with dignity and respect, and how these acts will affect people who recently joined the society again. "
+abstract: "This study replicates and extends research on prison safety, health, and COVID-19 impact, revealing stark disparities in incarceration rates between black and white individuals, especially among those with lower education levels. The findings underscore the persistent issue of mass incarceration in the United States and the urgent need for comprehensive strategies to address inequalities within the criminal justice system. Understanding these disparities is crucial for fostering a more equitable society and improving outcomes for marginalized populations. "
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 ---
+
+
 
 ```{r}
 #| include: false
@@ -29,12 +32,13 @@ library(dplyr)
 
 # Introduction
 
-This paper explores how prisons impact crime and inequality. Prisons are often overlooked compared to other institutions such as schools or hospitals. We are focusing on the US, where the concept of “mass incarceration” is a big issue, in other words there are a lot of people in prison, especially Black men with limited education. This mostly happens due to strict laws against Black men and inequality that rise upon the issue. 
-Researchers have studied incarceration in various angles, examining its effects on how prisons affect crime rates, labor markets, health outcomes, and family dynamics. Despite debates over rehabilitation, it is still hard for them to get jobs and be accepted in society. 
-This paper takes a unique perspective, where we view US penal institutions as “total institutions” where individuals face constricted control and minimal autonomy. We are exploring key issues such as overcrowding, violence, health challenges, and the harsh realities of solitary confinement. By understanding what happens inside prisons, we can gain a deeper understanding of the problems of mass incarceration and work towards making things better. 
-→ We can add details after we decide what data and model we are going to use (Ex. Rate has increased 80% over 1990 to 2020) 
+This paper delves into the profound impacts of prisons on safety and health for incarcerated individuals, shedding light on an often overlooked facet of society compared to institutions like schools or hospitals. Focusing on the United States, where the concept of "mass incarceration" looms large, we observe a staggering increase in the prison population since the 1970s, despite a slight decline in recent years. Notably, Black men with limited education face disproportionate rates of incarceration, reflecting systemic inequalities in the justice system. The study examines various aspects of incarceration, including its effects on crime rates, labor markets, and family dynamics, revealing persistent challenges in prisoner rehabilitation and societal reintegration.
 
-The remainder of this paper is structured as follows. @sec-data....
+Furthermore, this paper offers a unique perspective on US penal institutions as 'total institutions,' where inmates experience stringent control and minimal autonomy, leading to isolation and restricted freedom. Key issues such as mass incarceration, the COVID-19 pandemic, violence, health challenges, and the harsh realities of solitary confinement are explored, with a focus on the high prevalence of COVID-19 cases among prisoners. Global comparisons of mass incarceration trends across 20 countries provide insights into the broader context of prison systems worldwide.
+
+By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language R (@citeR), leveraging functionalities from the tidyverse (@tidyverse) suite, including ggplot2 (@ggplot2), dplyr (@dplyr), readr (@readr), tibble (@tibble),stringr (@stringr) ,haven(@haven),openxlsx(@openxlsx),janitor (@janitor) and knitr (@knitr). The detailed procedures for data extraction and cleaning are expounded upon in the subsequent subsections.
+
+The remainder of this paper is structured as follows. @sec-data
 
 
 
@@ -58,53 +62,15 @@ All data are not obtained directly through surveys or sampling statistics; rathe
 Accurate data cleansing and structuring are paramount in research. Given the extensive and varied raw data analyzed in the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside) and the lack of detailed explanation regarding data processing methods by the original author, Figures 1, 2, 4, 5, 6, and 7 are derived from processed data provided by the original author, albeit with a distinct focus in visualization. For figure 2, we obtained the updated version of the original data and expanded it by incorporating data from an additional 5 countries to enhance comprehensiveness.
  
 
-## Features
-mass incarceration.xlsx
  
- incarceration 1925-2019
- Year:1925-2019
- Prison: integer number
- Prison rate per(100k) : easy to read and compare
- Jail
- Total
- Population
- Total Rate
  
- world incarceration rates
- rate
- rate18
- 
- cumulative risk
- race :w(white) b(black) Lack of data on other ethnic minorities
-
- education
- cohort
- risk
-
-COVID-19 Cases in State and Federal Prison Systems.csv：
-Prison System
-Incarcerated Tested
-Incarcerated Positive,
-Incarcerated Deaths,
-Staff Positive,
-Staff Deaths,
-Incarcerated Case rate per 1,000
-Scrape Date
-Staff Case rate per 1,000
-state
-
-statepop.csv:
-sate
-abbreviation
-
-all-states-history.csv:
 
 ## Measurement:
 Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region
 Original data comes from two prison questionnaires
 \ For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
 
-Cumulative COVID-19 Case Rates among Those in Prison and General Population, by State: March 2020 to January 2021
+
 
 # Result
 ## Over trend
@@ -577,22 +543,6 @@ Studying the experiences of prison staff can provide insight into challenges wit
 
 
 
-\newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-
-
-\newpage
 
 
 # References
