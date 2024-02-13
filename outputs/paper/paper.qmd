@@ -1,5 +1,5 @@
 ---
-title: "Delving into the World Inside Prisons for Safety, Health, and Isolation"
+title: "Exploring the World Inside US Prisons for Safety, Health, and Isolation"
 
 author: 
   - Dong Jun Yoon
@@ -425,7 +425,7 @@ When comparing the overall new coronavirus infection rate among the American pop
 \ In addition to replicating the original data, we have incorporated a comparison of the COVID-19 infection rate among prison staff with the overall U.S. COVID-19 infection rate. According to the figure(@fig-staff), the infection rate among prison staff surpasses the overall infection rate but remains lower than the new coronavirus infection rate among incarcerated individuals, positioning it roughly in the middle between the two. This observation underscores the vulnerable position of prisoners within correctional facilities during the pandemic.
 ```{r fig.height=10, fig.width=10 }
 #| label: fig-planes
-#| fig-cap: Cumulative COVID-19 Case Rates among Those in Prison and General Population, by State
+#| fig-cap: Cumulative COVID-19 Case Rates among Those in Imprisoned persons and General Population, by State
 #| echo: false
 #| warning: false
 #| message: false
