@@ -41,16 +41,21 @@ The remainder of this paper is structured as follows. @sec-data....
 # Data {#sec-data}
 
 ## Source
-The paper used for replication is "Inside the Box: Safety, Health, and Isolation in Prison," which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
+The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
 
-Sourcebook of Criminal Justice Statistics, Bureau of Justice Statistics Report, Jail Inmates in 2018, U.S. Population FRED Data, World Prison Population Data, and Western B. and Pettit B data
+Sourcebook of Criminal Justice Statistics
+\ Bureau of Justice Statistics Report   
+Jail Inmates in 2018, U.S. Population FRED Data  
+World Prison Population Data   
+Western B. and Pettit B data
+\ Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)
+\ Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b, 2006, 2019, 2021)
 
 ## Methodology
 All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
 
- mass incarceration.xlsx
- 
- incarceration 1925-2019
+## data cleaning and construction
+Accurate data cleansing and structuring are paramount in research. Given the extensive and varied raw data analyzed in the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside) and the lack of detailed explanation regarding data processing methods by the original author, Figures 1, 2, 4, 5, 6, and 7 are derived from processed data provided by the original author, albeit with a distinct focus in visualization. For figure 2, we obtained the updated version of the original data and expanded it by incorporating data from an additional 5 countries to enhance comprehensiveness.
  
 
 ## Features
@@ -97,7 +102,7 @@ all-states-history.csv:
 ## Measurement:
 Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region
 Original data comes from two prison questionnaires
-For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
+\ For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
 
 Cumulative COVID-19 Case Rates among Those in Prison and General Population, by State: March 2020 to January 2021
 
@@ -136,7 +141,50 @@ legend(1925, 770, c("Prison and jail","Prison only"), lwd=2,
 abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 
 ```
-## Comparing
+```{r fig.height=6, fig.width=6 }
+#| label: fig-men
+#| fig-cap: Men’s cumulative imprisonment risk, by cohort
+#| echo: false
+#| warning: false
+#| message: false
+
+library(openxlsx)
+
+file_path <- here::here("inputs/data/mass incarceration.xlsx")
+
+# Read the Excel file
+
+data <- read.xlsx(file_path, sheet = 3)
+data <- data %>%
+  mutate(
+    race = case_when(
+      race == "W" ~ "White",
+      race == "B" ~ "Black",
+      TRUE ~ race
+    ),
+    cohort = case_when(
+      cohort == "45-49" ~ "Born 1945-1949",
+      cohort == "75-79" ~ "Born 1975-1979",
+      TRUE ~ cohort
+    )
+  )
+ggplot(data, aes(x = race, y = risk, fill = education)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~cohort) +
+  labs(
+       x = "Race",
+       y = "Risk",
+       fill = "Education") +
+  theme_minimal()
+
+```
+
+## Exploring Racial Disparities in Incarceration Trends
+Despite extensive discussions surrounding the surge in the U.S. prison population over the last twenty-five years (@pettit2004mass), scant attention has been paid to the evolution of incarceration inequality. Our study delves into sentencing disparities by analyzing the likelihood of incarceration among blacks and whites across varying educational attainment levels. The data(@fig-men) reveals stark contrasts: irrespective of educational achievement, black individuals face significantly higher incarceration rates compared to their white counterparts, particularly among those with less than twelve years of schooling.
+
+
+
+## Global Perspectives on Mass Incarceration
 In addition to examining the trajectory of incarceration rates within the United States over time, it is equally imperative to conduct horizontal comparisons by scrutinizing incarceration rates across different countries. Such comparisons enable us to discern whether mass incarceration is a global phenomenon or if it manifests as a more acute issue within the United States.
 
 \ Data regarding prison population rates per 100,000 of the national population is accessible through the online public data platform World Prison Brief. This resource provides updated country information on a monthly basis, drawing primarily from governmental or other authoritative sources, thereby ensuring the data's timeliness and reliability.
@@ -153,7 +201,7 @@ In addition to examining the trajectory of incarceration rates within the United
 
 ```{r fig.height=8, fig.width=10 }
 #| label: fig-country
-#| fig-cap: Relationship between wing length and width
+#| fig-cap: Prison Population Rate by Country
 #| echo: false
 #| warning: false
 #| message: false
@@ -167,8 +215,7 @@ data <- data[order(-data$prison_population_rate), ]
 plot <- ggplot(data, aes(x =prison_population_rate, y = country)) +
   geom_bar(stat = "identity", fill = "skyblue") +
   theme(axis.text.x = element_text(angle = 0, hjust = 1, vjust = 0.5)) +  # Rotate x-axis labels
-  labs(x = "Prison Population Rate", y = "country") +  # Add axis labels
-  ggtitle("Prison Population Rate by Country ")  # Add title
+  labs(x = "Prison Population Rate", y = "country")  # Add axis labels
 
 print(plot)
 
@@ -193,7 +240,7 @@ The processed data only provides a rough division of the United States into four
 
 ```{r fig.height=6, fig.width=8}
 #| label: fig-admit
-#| fig-cap: Relationship between wing length and width
+#| fig-cap: Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region_admit
 #| echo: false
 #| warning: false
 #| message: false
@@ -278,7 +325,7 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 ```{r fig.height=6, fig.width=8 }
 #| label: fig-plane
-#| fig-cap: Relationship between wing length and width
+#| fig-cap: Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region_not_admit
 #| echo: false
 #| warning: false
 #| message: false
