@@ -1,11 +1,11 @@
 #### Preamble ####
-# Purpose: Simulates... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Simulates example data for 20 countries including prison populations, national populations, and prison rates per 100,000 people.
+# Author: Sirui Tan 
+# Date: 8 February 2024 
+# Contact: sirui.tan@utoronto.ca 
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: No
+# Any other information needed? NO
 
 
 #### Workspace setup ####
@@ -13,7 +13,6 @@ library(tidyverse)
 
 
 #### Simulate data ####
-# [...ADD CODE HERE...]
 # Set seed for reproducibility
 set.seed(123)
 
