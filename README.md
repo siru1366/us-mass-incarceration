@@ -16,3 +16,4 @@ The repo is structured as:
 A replication using the Social Science Reproduction Platform was also produced: https://www.socialsciencereproduction.org/reproductions/1551/index?step=0
 
 ##  LLM Usage
+Statement on LLM usage: Aspects of the code were written with the help of the autocomplete tool, Chat-GPT3.5. The summary was written with the help of Chat-GPT3.5 and the entire chat history is available at inputs/llms/usage.txt.
