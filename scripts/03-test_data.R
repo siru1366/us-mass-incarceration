@@ -1,59 +1,47 @@
 #### Preamble ####
-# Purpose: Tests... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Tests the real data
+# Author: Sirui Tan
+# Date: 14 February 2024 
+# Contact: sirui.tan@utoronto.ca 
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: No
+# Any other information needed? No
 
 
 #### Workspace setup ####
+
 library(tidyverse)
+library(readxl)
 
 
-#### Test data ####
-set.seed(123)
+#### Test real_data_1 ####
+file_path <- here::here("inputs/data/mass incarceration.xlsx")
+real_data_1 <- read.xlsx(file_path, sheet = 1)
 
-# Generate example data for 20 countries
-countries <- paste("Country", 1:20)
-prison_populations <- sample(1000:10000, 20, replace = TRUE)  # Example prison populations
-national_populations <- sample(500000:5000000, 20, replace = TRUE)  # Example national populations
+# Check if min year is 1925
+min_year_check <- min(real_data_1$Year) == 1925
 
-# Calculate prison population rates per 100,000
-prison_rates <- (prison_populations / national_populations) * 100000
+# Check if max year is 2019
+max_year_check <- max(real_data_1$Year) == 2019
 
-# Create a data frame to store the simulated data
-simulated_data <- data.frame(
-  Country = countries,
-  Prison_Population = prison_populations,
-  National_Population = national_populations,
-  Prison_Rate_per_100000 = prison_rates
-)
+# Check if min prison rate is >= 0
+min_prison_rate_check <- min(real_data_1$Prison.Rate.per.100k) >= 0
 
-test_that("Data frame has the correct dimensions", {
-  expect_equal(nrow(simulated_data), 20)
-  expect_equal(ncol(simulated_data), 4)
-})
+# Print the test results
+cat("Minimum year is 1925:", min_year_check, "\n")
+cat("Maximum year is 2019:", max_year_check, "\n")
+cat("Minimum prison rate is >= 0:", min_prison_rate_check, "\n")
 
-test_that("Data frame contains required columns", {
-  expect_true("Country" %in% names(simulated_data))
-  expect_true("Prison_Population" %in% names(simulated_data))
-  expect_true("National_Population" %in% names(simulated_data))
-  expect_true("Prison_Rate_per_100000" %in% names(simulated_data))
-})
+file_path <- here::here("inputs/data/mass incarceration.xlsx")
+# Read the Excel file
+real_men_data <- read.xlsx(file_path, sheet = 3)
 
-test_that("Prison_Population and National_Population have valid values", {
-  expect_true(all(simulated_data$Prison_Population >= 1000))
-  expect_true(all(simulated_data$Prison_Population <= 10000))
-  expect_true(all(simulated_data$National_Population >= 500000))
-  expect_true(all(simulated_data$National_Population <= 5000000))
-})
+# Check if unique races are "W" and "B"
+race_check <- all(unique(real_men_data$race) == c("W", "B"))
 
-test_that("Prison_Rate_per_100000 falls within a reasonable range", {
-  expect_true(all(simulated_data$Prison_Rate_per_100000 >= 0))
-  expect_true(all(simulated_data$Prison_Rate_per_100000 <= 2000))  # A typical upper limit for prison rates
-})
-test_that("Country names are unique", {
-  expect_true(length(unique(simulated_data$Country)) == nrow(simulated_data))
-})
+# Check if min risk is >= 0
+risk_check <- min(real_men_data$risk) >= 0
+
+# Print the test results
+cat("Unique races are 'W' and 'B':", race_check, "\n")
+cat("Minimum risk is >= 0:", risk_check, "\n")

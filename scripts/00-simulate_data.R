@@ -36,4 +36,32 @@ simulated_data <- data.frame(
 head(simulated_data)
 
 
+#### Test data ####
+
+test_that("Data frame has the correct dimensions", {
+  expect_equal(nrow(simulated_data), 20)
+  expect_equal(ncol(simulated_data), 4)
+})
+
+test_that("Data frame contains required columns", {
+  expect_true("Country" %in% names(simulated_data))
+  expect_true("Prison_Population" %in% names(simulated_data))
+  expect_true("National_Population" %in% names(simulated_data))
+  expect_true("Prison_Rate_per_100000" %in% names(simulated_data))
+})
+
+test_that("Prison_Population and National_Population have valid values", {
+  expect_true(all(simulated_data$Prison_Population >= 1000))
+  expect_true(all(simulated_data$Prison_Population <= 10000))
+  expect_true(all(simulated_data$National_Population >= 500000))
+  expect_true(all(simulated_data$National_Population <= 5000000))
+})
+
+test_that("Prison_Rate_per_100000 falls within a reasonable range", {
+  expect_true(all(simulated_data$Prison_Rate_per_100000 >= 0))
+  expect_true(all(simulated_data$Prison_Rate_per_100000 <= 2000))  # A typical upper limit for prison rates
+})
+test_that("Country names are unique", {
+  expect_true(length(unique(simulated_data$Country)) == nrow(simulated_data))
+})
 

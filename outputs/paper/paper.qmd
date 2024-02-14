@@ -40,23 +40,21 @@ library(knitr)
 
 This paper delves into the profound impacts of prisons on safety and health for incarcerated individuals, shedding light on an often overlooked facet of society compared to institutions like schools or hospitals. Focusing on the United States, where the concept of "mass incarceration" looms large, we observe a staggering increase in the prison population since the 1970s, despite a slight decline in recent years. Notably, Black men with limited education face disproportionate rates of incarceration, reflecting systemic inequalities in the justice system. The study examines various aspects of incarceration, including its effects on crime rates, labor markets, and family dynamics, revealing persistent challenges in prisoner rehabilitation and societal reintegration.     
 Furthermore, this paper offers a unique perspective on US penal institutions as 'total institutions,' where inmates experience stringent control and minimal autonomy, leading to isolation and restricted freedom. Key issues such as mass incarceration, the COVID-19 pandemic, violence, health challenges, and the harsh realities of solitary confinement are explored, with a focus on the high prevalence of COVID-19 cases among prisoners. Global comparisons of mass incarceration trends across 20 countries provide insights into the broader context of prison systems worldwide.     
-By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR], leveraging functionalities from the tidyverse (@tidyverse), ggplot2 (@ggplot2), dplyr (@dplyr), readr (@readr), tibble (@tibble),stringr (@stringr) ,haven(@haven),openxlsx(@openxlsx),janitor (@janitor) and knitr (@knitr). The detailed procedures for data extraction and cleaning are expounded upon in the subsequent subsections.    
-The remainder of this paper is structured as follows. @sec-data
-
-
+By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR], leveraging functionalities from the `tidyverse`[@tidyverse]，`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr]. The detailed procedures for data extraction and cleaning are expounded upon in the subsequent subsections(@sec-data).    
 
 # Data {#sec-data}
 
 ## Source
-The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
+The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and
+specifically includes data from the new coronavirus pandemic.
 
 Sourcebook of Criminal Justice Statistics   
-\ Bureau of Justice Statistics Report      
-Jail Inmates in 2018, U.S. Population FRED Data    
-World Prison Population Data     
-Western B. and Pettit B data    
-\ Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)   
-\ Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b, 2006, 2019, 2021)
+Bureau of Justice Statistics Report      
+Jail Inmates in 2018, U.S. Population FRED Data     
+World Prison Population Data      
+Western B. and Pettit B data      
+Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)    
+Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b, 2006, 2019, 2021)
 
 ## Methodology
 All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
@@ -83,8 +81,9 @@ kable(data, format = "markdown", booktabs = TRUE) %>%
  
 
 ## Measurement
-Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region
-Original data comes from two prison questionnaires    
+For @fig-over
+The Bureau of Justice Statistics (BJS) conducts thorough data collection and analysis on the populations incarcerated in both state and federal prisons, as well as local jails, across the United States. Utilizing diverse sources such as surveys, administrative records, and inmate censuses, BJS produces precise estimates of the total number of individuals held in correctional facilities. 
+For @fig-admit and @fig-plane,original data comes from two prison questionnaires    
 For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
 
 
@@ -130,9 +129,7 @@ abline(h=seq(0, 800, 200), v=seq(1920,2020,20), lty=3, col="gray")
 
 
 file_path <- here::here("inputs/data/mass incarceration.xlsx")
-
 # Read the Excel file
-
 men_data <- read.xlsx(file_path, sheet = 3)
 men_data <- men_data %>%
   mutate(
