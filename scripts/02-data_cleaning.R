@@ -23,7 +23,7 @@ cleaned_data <-
                        "France","Austria", "Italy","Belgium","Switzerland",
                        "Ireland", "Germany" ,"Denmark" ,"Norway","Netherlands", "Sweden",
                        "Finland","Egypt","Canada","Norway","Singapore","Japan","Iceland")) |>  # Filter specific countries
-  rename(country = title)  # Rename 'title' column to 'country'
-
+  rename(country = title)|>  # Rename 'title' column to 'country'
+  rename(prison_rate_per100000 = prison_population_rate)
 # Save the cleaned data to a new CSV file
 write_csv(cleaned_data, "outputs/data/clean_country_data.csv")

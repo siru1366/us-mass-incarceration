@@ -14,8 +14,6 @@ number-sections: true
 bibliography: references.bib
 ---
 
-
-
 ```{r}
 #| include: false
 #| warning: false
@@ -35,44 +33,42 @@ library(dplyr)
 library(knitr)
 ```
 
-
-
-
 # Introduction
 
 Over the past three decades, incarceration has become a potent force in perpetuating and exacerbating social inequality, as evidenced by extensive sociological research highlighting America's experiment with mass incarceration and its impacts on social stratification (@Wakefield). This trend underscores the broader societal shift towards the expansion of the penal system, marking it as one of the most salient developments in contemporary American society.
 
 Rooted in the insights from the paper "Inside the Box: Safety, Health, and Isolation in Prison" (@western2021inside), our analysis aims to illuminate the profound impacts of incarceration on the safety and health of incarcerated individuals, often overshadowed in societal discourse compared to other institutions like schools or hospitals.
 
-
 With a primary focus on the United States, where the concept of "mass incarceration" looms large, our investigation delves into the remarkable surge in the prison population since the 1970s, despite recent minor declines. Particularly noteworthy is the disproportionate rates of incarceration faced by Black men with limited education, underscoring systemic injustices within the justice system. Furthermore, our study comprehensively examines various dimensions of incarceration, including its implications for crime rates, labor markets, and family dynamics. Through this analysis, we uncover persistent challenges in prisoner rehabilitation and societal reintegration, shedding light on critical issues often overlooked in public discourse.The significance of this research lies in its contribution to understanding the multifaceted impacts of mass incarceration, both on individuals and society at large. By addressing the gap in knowledge regarding the health and safety implications of incarceration, we aim to inform policy discussions and advocate for reforms that prioritize the well-being of incarcerated individuals.
 
 This article is structured as follows: In @sec-data, we provide insights into the origin of the dataset utilized in the original paper, outlining the methods employed for data collection and emphasizing key features. Moving on to @sec-result, we replicate the original study and present three empirical markers of "mass incarceration." In @sec-dis, we delve into the health effects of mass incarceration on both offenders and prison staff during the epidemic. Additionally, we critically evaluate the study's limitations and propose directions for future analyses to complement this discussion.
-      
-
 
 # Data {#sec-data}
 
 ## Source
-The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and
-specifically includes data from the new coronavirus pandemic.
 
-Sourcebook of Criminal Justice Statistics   
-Bureau of Justice Statistics Report      
-Jail Inmates in 2018, U.S. Population FRED Data     
-World Prison Population Data      
-Western B. and Pettit B data      
-Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)    
+The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
+
+Sourcebook of Criminal Justice Statistics\
+Bureau of Justice Statistics Report\
+Jail Inmates in 2018, U.S. Population FRED Data\
+World Prison Population Data\
+Western B. and Pettit B data\
+Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)\
 Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b, 2006, 2019, 2021)
 
 ## Methodology
+
 All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
 
-By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR],leveraging functionalities from the `tidyverse`[@tidyverse],`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr]. 
+By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR],leveraging functionalities from the `tidyverse`[@tidyverse],`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr].
 
 ## data cleaning and construction
-Accurate data cleansing and structuring are paramount in research. Given the extensive and varied raw data analyzed in the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside) and the lack of detailed explanation regarding data processing methods by the original author, Figures 1, 2, 4, 5, 6, and 7 are derived from processed data provided by the original author, albeit with a distinct focus in visualization. For figure 2, we obtained the updated version of the original data and expanded it by incorporating data from an additional 5 countries to enhance comprehensiveness. @tbl-country
- 
+
+In research, accurate data cleansing and structuring are imperative. Figures 1, 3, 4, 5, 6, and 7 in this study stem from the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside). However, due to the original author's lack of detailed explanation regarding data processing methods, we took steps to ensure the reliability and relevance of the data. Specifically, we focused on visualizing the processed data to enhance clarity and understanding.
+
+For Figure 2, we not only obtained the updated version of the original data but also expanded it by including data from an additional 5 countries, as outlined in @tbl-country. This expansion was undertaken to augment the comprehensiveness of our analysis. However, to maintain the relevance and accuracy of the displayed data, we made a deliberate decision not to include countries with missing data sources from the website.
+
 ```{r }
 #| label: tbl-country
 #| echo: false
@@ -88,28 +84,24 @@ kable(data, format = "markdown", booktabs = TRUE) %>%
 
 
 ```
- 
- 
 
 ## Measurement
-For @fig-over
-The Bureau of Justice Statistics (BJS) conducts thorough data collection and analysis on the populations incarcerated in both state and federal prisons, as well as local jails, across the United States. Utilizing diverse sources such as surveys, administrative records, and inmate censuses, BJS produces precise estimates of the total number of individuals held in correctional facilities. 
 
-For @fig-admit and @fig-plane,original data comes from two prison questionnaires    
+For @fig-over The Bureau of Justice Statistics (BJS) conducts thorough data collection and analysis on the populations incarcerated in both state and federal prisons, as well as local jails, across the United States. Utilizing diverse sources such as surveys, administrative records, and inmate censuses, BJS produces precise estimates of the total number of individuals held in correctional facilities.
+
+For @fig-admit and @fig-plane,original data comes from two prison questionnaires\
 For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
 
-
-
 # Result {#sec-result}
+
 ## Over trend
 
 Mass incarceration, as outlined by Garland (2001), refers to the historical phenomenon characterized by exceptionally high rates of imprisonment, particularly affecting marginalized populations. It signifies the confinement of vast numbers of individuals within prisons, coupled with the enduring legal and financial barriers they encounter upon reintegration into society, as described by Younes (2014).
 
-From 1925 to 1972, the incarceration rate in the United States exhibited a period of relative stability, punctuated by minor fluctuations. However, since the 1970s, the number of inmates in the U.S. has surged dramatically, increasing by over sixfold, as noted by Manza and Uggen (2006: 95).
-Following its peak in 2007, incarceration rates have seen a slight decline over the past decade. However, they remain approximately five times higher than the average rate observed throughout the 20th century.
+From 1925 to 1972, the incarceration rate in the United States exhibited a period of relative stability, punctuated by minor fluctuations. However, since the 1970s, the number of inmates in the U.S. has surged dramatically, increasing by over sixfold, as noted by Manza and Uggen (2006: 95). Following its peak in 2007, incarceration rates have seen a slight decline over the past decade. However, they remain approximately five times higher than the average rate observed throughout the 20th century.
 
-This underscores the continued importance of mass incarceration as a pressing issue in the United States. It highlights the need for further research to fully examine its effects on various aspects including health, property ownership and personal growth. Furthermore, understanding its socioeconomic impact and exploring effective rehabilitation and reintegration strategies are important steps to address this multifaceted problem and build a more just and equitable society.
-@fig-over
+This underscores the continued importance of mass incarceration as a pressing issue in the United States. It highlights the need for further research to fully examine its effects on various aspects including health, property ownership and personal growth. Furthermore, understanding its socioeconomic impact and exploring effective rehabilitation and reintegration strategies are important steps to address this multifaceted problem and build a more just and equitable society. @fig-over
+
 ```{r fig.height=10, fig.width=6 }
 #| label: fig-over
 #| fig-cap: US Incarceration, 1925-2018
@@ -168,11 +160,11 @@ ggplot(men_data, aes(x = race, y = risk, fill = education)) +
 ```
 
 ## Exploring Racial Disparities in Incarceration Trends
+
 Despite extensive discussions surrounding the surge in the U.S. prison population over the last twenty-five years (@pettit2004mass), scant attention has been paid to the evolution of incarceration inequality. Our study delves into sentencing disparities by analyzing the likelihood of incarceration among blacks and whites across varying educational attainment levels. The data(@fig-men) reveals stark contrasts: irrespective of educational achievement, black individuals face significantly higher incarceration rates compared to their white counterparts, particularly among those with less than twelve years of schooling.
 
-
-
 ## Global Perspectives on Mass Incarceration
+
 In addition to examining the trajectory of incarceration rates within the United States over time, it is equally imperative to conduct horizontal comparisons by scrutinizing incarceration rates across different countries. Such comparisons enable us to discern whether mass incarceration is a global phenomenon or if it manifests as a more acute issue within the United States.
 
 Data regarding prison population rates per 100,000 of the national population is accessible through the online public data platform World Prison Brief. This resource provides updated country information on a monthly basis, drawing primarily from governmental or other authoritative sources, thereby ensuring the data's timeliness and reliability.
@@ -185,8 +177,6 @@ It can be readily inferred from graphical representations and pertinent research
 
 It is noteworthy that the incarceration rates (per 100,000) observed in the other 19 countries typically hover around 100. In stark contrast, the United States exhibits an incarceration rate exceeding four times this average. This significant disparity underscores the exceptional nature of the U.S. incarceration system compared to its international counterparts.
 
-
-
 ```{r fig.height=8, fig.width=10 }
 #| label: fig-country
 #| fig-cap: Prison Population Rate by Country
@@ -197,20 +187,22 @@ It is noteworthy that the incarceration rates (per 100,000) observed in the othe
 
 c_data <-  read.csv(file = here::here("outputs/data/clean_country_data.csv"))
 
-c_data <- data[order(-data$prison_population_rate), ]
+c_data <- data[order(-data$prison_rate_per100000), ]
 
 # Create the bar plot
-plot <- ggplot(c_data, aes(x =prison_population_rate, y = country)) +
+plot <- ggplot(c_data, aes(x =prison_rate_per100000, y = country)) +
   geom_bar(stat = "identity", fill = "skyblue") +
   theme(axis.text.x = element_text(angle = 0, hjust = 1, vjust = 0.5)) +  # Rotate x-axis labels
-  labs(x = "Prison Population Rate", y = "country")  # Add axis labels
+  labs(x = "Prison Rate (per 100,000)", y = "country")  # Add axis labels
 
 print(plot)
 
 ```
 
 # Discussion {#sec-dis}
+
 ## What is done in this paper
+
 Through rigorous data collection, cleaning, and analysis procedures, we meticulously obtained vital incarceration rate data spanning from 1925 to 2018 for the United States. Additionally, we meticulously compiled statistics on Men’s cumulative imprisonment risk, organized by cohort, and meticulously gathered data on the incarceration rates of 20 countries worldwide, including the United States, up to 2023.
 
 Delving into the phenomenon of mass incarceration, we meticulously examined its historical underpinnings, contemporary trajectories, and global ramifications. Our analysis underscores the staggering surge in the U.S. prison population since the 1970s, notwithstanding recent marginal declines, underscoring the persistent urgency in addressing the pervasive social issue of mass incarceration. Moreover, our study illuminates pronounced racial disparities in incarceration rates, particularly shedding light on the disproportionate impact on individuals from the Black community with limited educational opportunities.
@@ -218,20 +210,12 @@ Delving into the phenomenon of mass incarceration, we meticulously examined its 
 Furthermore, we provide a comprehensive exploration of global perspectives on mass incarceration, revealing the United States as the foremost incarcerator globally compared to other nations. Subsequently, we delve into the critical implications of mass incarceration, particularly examining its profound effects on American society. This includes an in-depth examination of the United States’ rehabilitation policies for incarcerated individuals, alongside an analysis of the prevalence of COVID-19 infections in American prisons during the epidemic. Additionally, we scrutinize the impact of relevant policies on the personnel involved in the prison system, offering valuable insights into the broader societal repercussions of mass incarceration.
 
 ## rehabilitating
+
 Rehabilitation refers to a series of interventions aimed at enhancing functioning and diminishing disability in individuals with health conditions, taking into account their interactions with the environment.Academics studying mass incarceration identify the 1970s as a critical juncture in U.S. penal history, characterized by a transition towards stricter punitive measures and a widespread belief that traditional rehabilitation methods were ineffective(@Rehabilitation).
 
 The initial segment investigates prisoner engagement in rehabilitation initiatives across the United States. @fig-admit delineates four program categories (drug rehabilitation, education, job training, employment) and four regional divisions (Northeast, Midwest, South, West). Preliminary findings indicate that participation rates in the Northeast region tend to surpass those in the other three regions overall, whereas participation in the West region appears consistently lower across all four projects. Participation levels in the Southern region exhibit significant year-to-year fluctuations.
 
 The processed data only provides a rough division of the United States into four major regions based on geographical location, limiting the possibility of conducting more detailed data analysis. Unfortunately, the original author only briefly mentioned the data source without elaborating on the data processing methods. Moreover, due to the large size of the original dataset, extracting more detailed variable classification data proved to be challenging.
-
-
-
-
-
-
-
-
-
 
 ```{r fig.height=6, fig.width=8}
 #| label: fig-admit
@@ -313,11 +297,6 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 ```
 
-
-
-
-
-
 ```{r fig.height=6, fig.width=8 }
 #| label: fig-plane
 #| fig-cap: Enrollment in Drug, Education, Job Training Programs, and Work Assignment, State Prisoners, by Region_not_admit
@@ -397,17 +376,14 @@ abline(v=seq(1985, 2015, 10), h=seq(0,80, 20), col="gray",lty=3)
 
 
 ```
+
 The original data table exclusively focused on a subset of admitted individuals for the analysis of the American Prison Rehabilitation Program. Consequently, we opted to select the not admitted portion of the dataset to create similar charts for comparative analysis. @fig-plane illustrates that there is minimal disparity between the two groups regarding participation in drug rehabilitation and employment programs. However, the non-admitted group exhibits higher participation rates in education and vocational training initiatives.
 
 There is increasing evidence suggesting that in certain instances, incarceration can facilitate prisoners' reintegration into society (@arbour2021prison). Therefore, it may be beneficial for the U.S. government to implement additional programs aimed at assisting prisoners in readjusting to society. This approach not only reflects a commitment to humanistic values but also serves to bolster social security and foster broader societal development.
 
-
-
-
-
 ## Cumulative COVID-19 Case Rates among Those in Prison and General Population
-The closed and densely populated environment within prisons creates ideal conditions for the proliferation of large infectious diseases. The data stemming from the recent COVID-19 pandemic serves as a poignant illustration of this perspective, offering detailed insights into the heightened vulnerability of incarcerated populations to the rapid transmission and severe impact of contagious illnesses.
 
+The closed and densely populated environment within prisons creates ideal conditions for the proliferation of large infectious diseases. The data stemming from the recent COVID-19 pandemic serves as a poignant illustration of this perspective, offering detailed insights into the heightened vulnerability of incarcerated populations to the rapid transmission and severe impact of contagious illnesses.
 
 The prison population stands out as a high-risk demographic group during the coronavirus disease 2019 (COVID-19) pandemic. In addition to residing in environments that are inherently challenging for practicing "social distancing," individuals within prisons often exhibit advanced age and possess multiple comorbidities. These characteristics are reflective of punitive policies that are discriminatory in nature and implemented worldwide (@elbek2020covid).
 
@@ -418,6 +394,7 @@ The significant number of individuals held in incarceration across the United St
 @novisky2020institutional indicates that the implementation of varied epidemic prevention policies across different states in the United States, alongside differences in the infrastructure of state prisons, has resulted in significant disparities in prisoner infection rates.
 
 In addition to replicating the original data, we have incorporated a comparison of the COVID-19 infection rate among prison staff with the overall U.S. COVID-19 infection rate. According to the figure(@fig-staff), the infection rate among prison staff surpasses the overall infection rate but remains lower than the new coronavirus infection rate among incarcerated individuals, positioning it roughly in the middle between the two. This observation underscores the vulnerable position of prisoners within correctional facilities during the pandemic.
+
 ```{r fig.height=10, fig.width=10 }
 #| label: fig-planes
 #| fig-cap: Cumulative COVID-19 Case Rates among Those in Imprisoned persons and General Population, by State
@@ -472,7 +449,6 @@ legend(450, 7, c("Prison","General population"), pch=c(16, 17),
        col=c("red","blue"), bty="n", cex=1.1)
 
 ```
-
 
 ```{r fig.height=10, fig.width=10}
 #| label: fig-staff
@@ -532,34 +508,23 @@ legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Weaknesses
+
 ### Bias in Data Analysis
+
 On one hand, it's noteworthy that a considerable portion of data regarding U.S. prisons exclusively pertains to men, leading to the phenomenon referred to as "big dick data." This term underscores the prevalence of male-dominated datasets, which not only underscores systemic bias and marginalization, particularly towards women but also sheds light on existing power dynamics. The absence or marginalization of women in these datasets not only mirrors prevailing power structures but also perpetuates gender-based biases and stereotypes. Such gender disparity distorts our comprehension of reality, reinforces harmful stereotypes and inequalities, and presents substantial hurdles to data-driven decision-making (@dignazio2020data).
 
 On the other hand, when examining racial data, it tends to be categorized broadly into whites and blacks. This practice not only reinforces the binary opposition between these two racial groups in the United States but also overlooks the experiences of other ethnic minorities.
 
 ### Measurement error
+
 Utilizing data from various origins, a practice known as data fusion or integration, introduces complexities and hurdles that can result in measurement inaccuracies. Each dataset carries its unique biases, constraints, and inaccuracies stemming from variations in data collection methods, sampling approaches, measurement tools, and processing methodologies.
 
 The amalgamation of data from disparate sources often introduces disparities in quality, consistency, and reliability, leading to inconsistencies or inaccuracies in the merged datasets. Moreover, issues like incomplete data, absent values, and misclassification errors can compound measurement inaccuracies.
 
 ## future
-On the one hand, similar data collection, statistical analysis, and comparative studies of Canadian prisons provide an attractive avenue for gaining insights due to Canada's geographic proximity to the United States and some shared cultural and legal frameworks. This similarity in land area and certain social aspects may allow for more meaningful comparisons and broader conclusions.
 
+On the one hand, similar data collection, statistical analysis, and comparative studies of Canadian prisons provide an attractive avenue for gaining insights due to Canada's geographic proximity to the United States and some shared cultural and legal frameworks. This similarity in land area and certain social aspects may allow for more meaningful comparisons and broader conclusions.
 
 On the other hand, a comparison of prison data from smaller Nordic countries, represented by Iceland, gives a markedly different context. These countries tend to have very different social norms, legal frameworks, and approaches to criminal justice than North American countries. Factors such as smaller population sizes, different cultural attitudes toward crime and punishment, and alternative approaches to rehabilitation may contribute to contrasting prison data.
 
@@ -567,13 +532,4 @@ Apart from large-scale studies, conducting small controlled experiments could of
 
 Studying the experiences of prison staff can provide insight into challenges within correctional facilities and facilitate the development of effective policies. Likewise, exploring the impact of incarceration on families can provide greater insight into broader social impacts, including emotional distress and financial stress. Including their voices in research and policy discussions is critical to addressing the complex issues surrounding incarceration and reentry.
 
-
-
-
-
-
-
-
 # References
-
-
