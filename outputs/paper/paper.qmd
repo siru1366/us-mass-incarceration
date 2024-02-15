@@ -37,9 +37,11 @@ library(knitr)
 
 Over the past three decades, incarceration has become a potent force in perpetuating and exacerbating social inequality, as evidenced by extensive sociological research highlighting America's experiment with mass incarceration and its impacts on social stratification (@Wakefield). This trend underscores the broader societal shift towards the expansion of the penal system, marking it as one of the most salient developments in contemporary American society.
 
-Rooted in the insights from the paper "Inside the Box: Safety, Health, and Isolation in Prison" (@western2021inside), our analysis aims to illuminate the profound impacts of incarceration on the safety and health of incarcerated individuals, often overshadowed in societal discourse compared to other institutions like schools or hospitals.
+Rooted in the insights from the paper [*Inside the Box: Safety, Health, and Isolation in Prison*](#) (@western2021inside), our analysis aims to illuminate the profound impacts of incarceration on the safety and health of incarcerated individuals.
 
 With a primary focus on the United States, where the concept of "mass incarceration" looms large, our investigation delves into the remarkable surge in the prison population since the 1970s, despite recent minor declines. Particularly noteworthy is the disproportionate rates of incarceration faced by Black men with limited education, underscoring systemic injustices within the justice system. Furthermore, our study comprehensively examines various dimensions of incarceration, including its implications for crime rates, labor markets, and family dynamics. Through this analysis, we uncover persistent challenges in prisoner rehabilitation and societal reintegration, shedding light on critical issues often overlooked in public discourse.The significance of this research lies in its contribution to understanding the multifaceted impacts of mass incarceration, both on individuals and society at large. By addressing the gap in knowledge regarding the health and safety implications of incarceration, we aim to inform policy discussions and advocate for reforms that prioritize the well-being of incarcerated individuals.
+
+Our estimand aims to assess the extent of mass incarceration within the country using the incarceration rate (per 100,000 population). Additionally, we seek to compare the incidence rate of new coronavirus infections among incarcerated individuals with that of the general population in the United States during the epidemic. This comparison will provide insights into the health status and vulnerability of the prison population relative to the broader community.
 
 This article is structured as follows: In @sec-data, we provide insights into the origin of the dataset utilized in the original paper, outlining the methods employed for data collection and emphasizing key features. Moving on to @sec-result, we replicate the original study and present three empirical markers of "mass incarceration." In @sec-dis, we delve into the health effects of mass incarceration on both offenders and prison staff during the epidemic. Additionally, we critically evaluate the study's limitations and propose directions for future analyses to complement this discussion.
 
@@ -47,34 +49,46 @@ This article is structured as follows: In @sec-data, we provide insights into th
 
 ## Source
 
-The paper used for replication is Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside), which mainly analyzes the impact of prisons on safety and health, and specifically includes data from the new coronavirus pandemic.
+The paper selected for replication, [*Inside the Box: Safety, Health, and Isolation in Prison*](#) (@western2021inside), primarily investigates the impacts of prisons on safety and health, with a specific focus on data pertaining to the new coronavirus pandemic.
 
-Sourcebook of Criminal Justice Statistics\
-Bureau of Justice Statistics Report\
-Jail Inmates in 2018, U.S. Population FRED Data\
-World Prison Population Data\
-Western B. and Pettit B data\
-Survey of Inmates of States Correctional Facilities (1986, 1991, 1997, 2004)\
-Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b, 2006, 2019, 2021)
+This paper draws from a variety of sources, including:
+
+- @bjs1994
+- @BJS2004a,@BJS2004b,@BJS2006
+- @BJS2019,@BJS2020,@BJS2021
+- @Western2010
+- @Sourcebook2011,@Sourcebook2012,
+- @ICJPR2023
+- @BEA
+- @PADOC2018
+- @Carson2020,@Carson2020b
+- @Zeng2020
+- @NCHS2021
+- @CensusBureau
+- @COVIDPrisonProject2020,@COVIDTrackingProject2021 
+
+These diverse sources provide a comprehensive foundation for the replication analysis, enabling a thorough examination of the various dimensions of incarceration and its effects on safety, health, and societal dynamics.
 
 ## Methodology
 
 All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
 
-By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR],leveraging functionalities from the `tidyverse`[@tidyverse],`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr].
+By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR], leveraging functionalities from the `tidyverse`[@tidyverse],  `ggplot2`[@ggplot2], `dplyr`[@dplyr], `readr`[@readr], `tibble`[@tibble],`stringr`[@stringr], `haven`[@haven], `openxlsx`[@openxlsx], `janitor`[@janitor], `knitr`[@knitr].
 
 ## data cleaning and construction
 
-In research, accurate data cleansing and structuring are imperative. Figures 1, 3, 4, 5, 6, and 7 in this study stem from the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside). However, due to the original author's lack of detailed explanation regarding data processing methods, we took steps to ensure the reliability and relevance of the data. Specifically, we focused on visualizing the processed data to enhance clarity and understanding.
+In research, accurate data cleansing and structuring are imperative. @fig-over, @fig-men, @fig-admit, @fig-plane, @fig-planes, and @fig-staff in this study stem from the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside). However, due to the original author's lack of detailed explanation regarding data processing methods, we took steps to ensure the reliability and relevance of the data. Specifically, we focused on visualizing the processed data to enhance clarity and understanding.
 
-For Figure 2, we not only obtained the updated version of the original data but also expanded it by including data from an additional 5 countries, as outlined in @tbl-country. This expansion was undertaken to augment the comprehensiveness of our analysis. However, to maintain the relevance and accuracy of the displayed data, we made a deliberate decision not to include countries with missing data sources from the website.
+For @fig-country, we not only obtained the updated version of the original data but also expanded it by including data from an additional 5 countries, as outlined in @tbl-country. This expansion was undertaken to augment the comprehensiveness of our analysis. However, to maintain the relevance and accuracy of the displayed data, we made a deliberate decision not to include countries with missing data sources from the website.
+
+It's crucial to clarify that the "prison rate" isn't simply the quotient of incarcerated individuals divided by the total population. Rather, it represents the number of individuals confined to prison facilities per 100,000 people within the broader population. This measurement standardizes the comparison of incarceration levels across different populations, accounting for variations in population size. For instance, a prison rate of 500 per 100,000 signifies that 500 individuals out of every 100,000 in the general population are incarcerated, providing a standardized metric for evaluating imprisonment prevalence across diverse demographic groups and geographic regions.
 
 ```{r }
 #| label: tbl-country
 #| echo: false
 #| eval: true
 #| warning: false
-#| tbl-cap: prison rates in 20 countries
+#| tbl-cap: prison rate per 1000000 in 20 countries in 2023
 
 data <- read.csv(file = here::here("outputs/data/clean_country_data.csv"))
 kable(data, format = "markdown", booktabs = TRUE) %>%
@@ -87,20 +101,44 @@ kable(data, format = "markdown", booktabs = TRUE) %>%
 
 ## Measurement
 
-For @fig-over The Bureau of Justice Statistics (BJS) conducts thorough data collection and analysis on the populations incarcerated in both state and federal prisons, as well as local jails, across the United States. Utilizing diverse sources such as surveys, administrative records, and inmate censuses, BJS produces precise estimates of the total number of individuals held in correctional facilities.
+In @fig-over, data from the Bureau of Justice Statistics (BJS) provides comprehensive insights into the populations incarcerated in state and federal prisons, as well as local jails, across the United States. Through meticulous data collection and analysis methods, including surveys, administrative records, and inmate censuses, the BJS offers precise estimates of the total number of individuals held in correctional facilities.
 
-For @fig-admit and @fig-plane,original data comes from two prison questionnaires\
-For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
+
+In @fig-men, the measurement in question assesses the percentage of men who have experienced incarceration up to two specific points in time: 1979 for individuals born between 1945 and 1949, and 2009 for those born between 1975 and 1979. This measurement considers race and educational attainment as variables and distinguishes between three groups: all men, men without college education, and men with less than twelve years of completed schooling. 
+
+For @fig-country, The World Prison Population List(@ICJPR2023) is compiled from a variety of sources. In almost all cases the original source is the national prison administration of the country concerned, or else the Ministry responsible for the prison administration. It's crucial to clarify that the "prison rate" isn't simply the quotient of incarcerated individuals divided by the total population. Rather, it represents the number of individuals confined to prison facilities per 100,000 people within the broader population.
+
+For Figures @fig-admit and @fig-plane, the original data is sourced from two prison questionnaires. For instance, the sample for the 2004 survey was drawn from two distinct documents. The primary archive comprises a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. Meanwhile, the secondary archive includes 36 prisons operational between June 30, 2000, and April 1, 2003. The sampling design necessitated a stratified two-stage selection process. Initially, 14 male and 7 female facilities were identified based on the gender ratio within prisons. Subsequently, the remaining facilities were divided into 16 levels according to geographic region and the male and female population within each prison. The weighting procedure involved assigning each inmate a base weight and three adjustment factors to derive the final weight for the survey. Data collection was conducted through face-to-face interviews with prisoners utilizing computer-assisted personal interviewing techniques.
+
+The original study involved the utilization of a complex dataset derived from questionnaire surveys. The author meticulously filtered and cleaned this dataset, followed by the calculation of weights (albeit without detailed explanation). These weights were instrumental in determining the participation rates of incarcerated individuals in various programs, including drug rehabilitation, education, job training, and work assignments.
+
+To measure the cumulative COVID-19 case rates among those in prison and the general population, by state, from March 2020 to January 2021, for @fig-planes, follow these steps:
+
+1. **Define the Population:** The populations of interest are individuals incarcerated in prisons and the general population of each state in the United States.
+
+2. **Gather Data:** Obtain data on the total number of confirmed COVID-19 cases among individuals incarcerated in prisons and the general population of each state. This data can be sourced from state health departments, corrections departments, or other reliable sources tracking COVID-19 statistics.
+
+3. **Determine the Time Period:** Specify the time frame for which you want to calculate the cumulative case rates, starting from March 2020 (when the pandemic was declared) and ending in January 2021.
+
+4. **Calculate the Cumulative Case Rates:** For each state:
+    - For incarcerated individuals: Divide the total number of confirmed COVID-19 cases among those in prison by the total incarcerated population in prisons for that state. Multiply the result by 100,000 to express the rate per 100,000 incarcerated individuals.
+    - For the general population: Divide the total number of confirmed COVID-19 cases in the general population by the total population of the state. Multiply the result by 100,000 to express the rate per 100,000 people in the general population.
+
+
+Subsequent chapters (@sec-weak) will delve into comprehensive discussions regarding biases and potential errors inherent in the measurement process.
 
 # Result {#sec-result}
 
 ## Over trend
 
-Mass incarceration, as outlined by Garland (2001), refers to the historical phenomenon characterized by exceptionally high rates of imprisonment, particularly affecting marginalized populations. It signifies the confinement of vast numbers of individuals within prisons, coupled with the enduring legal and financial barriers they encounter upon reintegration into society, as described by Younes (2014).
+Mass incarceration, as outlined by @garland2001introduction, refers to the historical phenomenon characterized by exceptionally high rates of imprisonment, particularly affecting marginalized populations. It signifies the confinement of vast numbers of individuals within prisons, coupled with the enduring legal and financial barriers they encounter upon reintegration into society, as described by @phelps2016inequality.
 
-From 1925 to 1972, the incarceration rate in the United States exhibited a period of relative stability, punctuated by minor fluctuations. However, since the 1970s, the number of inmates in the U.S. has surged dramatically, increasing by over sixfold, as noted by Manza and Uggen (2006: 95). Following its peak in 2007, incarceration rates have seen a slight decline over the past decade. However, they remain approximately five times higher than the average rate observed throughout the 20th century.
+According to @fig-over, from 1925 to 1972, the incarceration rate in the United States exhibited a period of relative stability, punctuated by minor fluctuations. However, since the 1970s, the number of inmates in the U.S. has surged dramatically, increasing by over sixfold, as noted by @manza2004punishment. Following its peak in 2007, incarceration rates have seen a slight decline over the past decade. However, they remain approximately five times higher than the average rate observed throughout the 20th century.
 
-This underscores the continued importance of mass incarceration as a pressing issue in the United States. It highlights the need for further research to fully examine its effects on various aspects including health, property ownership and personal growth. Furthermore, understanding its socioeconomic impact and exploring effective rehabilitation and reintegration strategies are important steps to address this multifaceted problem and build a more just and equitable society. @fig-over
+This underscores the continued importance of mass incarceration as a pressing issue in the United States. It highlights the need for further research to fully examine its effects on various aspects including health, property ownership, and personal growth. Furthermore, understanding its socioeconomic impact and exploring effective rehabilitation and reintegration strategies are important steps to address this multifaceted problem and build a more just and equitable society.
+
+
+
 
 ```{r fig.height=10, fig.width=6 }
 #| label: fig-over
@@ -169,7 +207,7 @@ In addition to examining the trajectory of incarceration rates within the United
 
 Data regarding prison population rates per 100,000 of the national population is accessible through the online public data platform World Prison Brief. This resource provides updated country information on a monthly basis, drawing primarily from governmental or other authoritative sources, thereby ensuring the data's timeliness and reliability.
 
-After acquiring the most recent data, we encountered complexity in processing the information for over 200 countries. Consequently, we streamlined our analysis by selecting a subset of 20 representative countries. Subsequently, we utilized this refined dataset to generate informative charts and visualizations(@fig-country)
+Upon acquiring the most recent data, we encountered complexity in processing the information for over 200 countries. Consequently, we streamlined our analysis by selecting a subset of 20 representative countries. Subsequently, we utilized this refined dataset to generate informative charts and visualizations (@fig-country).
 
 In addition to the United States, which serves as the primary focus of our research, the selected subset of 19 countries encompasses a diverse range of geographical locations across all seven continents. These countries represent various levels of development, including developed nations, developing regions, and areas classified as less economically developed. Moreover, the chosen countries vary in terms of land area, with some comparable in size to the United States, such as Canada and, to a lesser extent, Iceland. This diverse selection ensures a comprehensive analysis that accounts for a wide spectrum of geographic, developmental, and size-related factors.
 
@@ -179,7 +217,7 @@ It is noteworthy that the incarceration rates (per 100,000) observed in the othe
 
 ```{r fig.height=8, fig.width=10 }
 #| label: fig-country
-#| fig-cap: Prison Population Rate by Country
+#| fig-cap: Prison Population Rate by Country in 2023
 #| echo: false
 #| warning: false
 #| message: false
@@ -439,7 +477,8 @@ n1 <- length(o1)
 
 
 par(fig=c(.1,1,0,1))
-plot(ccr[o1,2], 1:n1, pch="", xlim=c(0,800), xlab="", ylab="", yaxt='n')
+plot(ccr[o1,2], 1:n1, pch="", xlim=c(0,800),
+     xlab="Cumulative Case Rate (per 1000)", ylab="", yaxt='n')
 abline(h=1:n1, lty=5, col="gray")
 axis(1)
 points(ccr[o1,1], 1:n1, pch=17, col="blue")
@@ -496,7 +535,7 @@ n1 <- length(o1)
 
 par(fig=c(.1,1,0,1))
 
-plot(ccr[o1, 2], 1:n1, pch="", xlim=c(0, 800), xlab="", ylab="", yaxt='n')
+plot(ccr[o1, 2], 1:n1, pch="", xlim=c(0, 800), xlab="Cumulative Case Rate (per 1000)", ylab="", yaxt='n')
 abline(h=1:n1, lty=5, col="gray")
 axis(1)
 points(ccr[o1, 1], 1:n1, pch=17, col="blue")
@@ -508,7 +547,7 @@ legend(450, 7, c("Staff", "General population"), pch=c(16, 17),
 
 ```
 
-## Weaknesses
+## Weaknesses {#sec-weak}
 
 ### Bias in Data Analysis
 
@@ -516,7 +555,7 @@ On one hand, it's noteworthy that a considerable portion of data regarding U.S. 
 
 On the other hand, when examining racial data, it tends to be categorized broadly into whites and blacks. This practice not only reinforces the binary opposition between these two racial groups in the United States but also overlooks the experiences of other ethnic minorities.
 
-### Measurement error
+### Measurement error 
 
 Utilizing data from various origins, a practice known as data fusion or integration, introduces complexities and hurdles that can result in measurement inaccuracies. Each dataset carries its unique biases, constraints, and inaccuracies stemming from variations in data collection methods, sampling approaches, measurement tools, and processing methodologies.
 
@@ -532,4 +571,7 @@ Apart from large-scale studies, conducting small controlled experiments could of
 
 Studying the experiences of prison staff can provide insight into challenges within correctional facilities and facilitate the development of effective policies. Likewise, exploring the impact of incarceration on families can provide greater insight into broader social impacts, including emotional distress and financial stress. Including their voices in research and policy discussions is critical to addressing the complex issues surrounding incarceration and reentry.
 
+\newpage
+
 # References
+
