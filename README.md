@@ -4,7 +4,7 @@
 
 This repo features a reproduction of the Jennifer B. Nuzzo and Jorge R. Ledesma paper, [`Inside the Box: Safety, Health, and Isolation in Prison`](https://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.35.4.97), containing `R` scripts and a final `pdf` [report](https://github.com/siru1366/us-mass-incarceration/blob/main/outputs/paper/paper.pdf). 
 
-A replication using the Social Science Reproduction Platform was also produced: [link here](https://www.socialsciencereproduction.org/reproductions/1551/index?step=0)
+A replication using the Social Science Reproduction Platform was also produced: [link here](https://www.socialsciencereproduction.org/reproductions/1551/published/index)
 
 
 ## File Structure
