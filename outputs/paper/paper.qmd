@@ -36,11 +36,20 @@ library(knitr)
 ```
 
 
+
+
 # Introduction
 
-This paper delves into the profound impacts of prisons on safety and health for incarcerated individuals, shedding light on an often overlooked facet of society compared to institutions like schools or hospitals. Focusing on the United States, where the concept of "mass incarceration" looms large, we observe a staggering increase in the prison population since the 1970s, despite a slight decline in recent years. Notably, Black men with limited education face disproportionate rates of incarceration, reflecting systemic inequalities in the justice system. The study examines various aspects of incarceration, including its effects on crime rates, labor markets, and family dynamics, revealing persistent challenges in prisoner rehabilitation and societal reintegration.     
-Furthermore, this paper offers a unique perspective on US penal institutions as 'total institutions,' where inmates experience stringent control and minimal autonomy, leading to isolation and restricted freedom. Key issues such as mass incarceration, the COVID-19 pandemic, violence, health challenges, and the harsh realities of solitary confinement are explored, with a focus on the high prevalence of COVID-19 cases among prisoners. Global comparisons of mass incarceration trends across 20 countries provide insights into the broader context of prison systems worldwide.     
-By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR], leveraging functionalities from the `tidyverse`[@tidyverse]，`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr]. The detailed procedures for data extraction and cleaning are expounded upon in the subsequent subsections(@sec-data).    
+Over the past three decades, incarceration has become a potent force in perpetuating and exacerbating social inequality, as evidenced by extensive sociological research highlighting America's experiment with mass incarceration and its impacts on social stratification (@Wakefield). This trend underscores the broader societal shift towards the expansion of the penal system, marking it as one of the most salient developments in contemporary American society.
+
+Rooted in the insights from the paper "Inside the Box: Safety, Health, and Isolation in Prison" (@western2021inside), our analysis aims to illuminate the profound impacts of incarceration on the safety and health of incarcerated individuals, often overshadowed in societal discourse compared to other institutions like schools or hospitals.
+
+
+With a primary focus on the United States, where the concept of "mass incarceration" looms large, our investigation delves into the remarkable surge in the prison population since the 1970s, despite recent minor declines. Particularly noteworthy is the disproportionate rates of incarceration faced by Black men with limited education, underscoring systemic injustices within the justice system. Furthermore, our study comprehensively examines various dimensions of incarceration, including its implications for crime rates, labor markets, and family dynamics. Through this analysis, we uncover persistent challenges in prisoner rehabilitation and societal reintegration, shedding light on critical issues often overlooked in public discourse.The significance of this research lies in its contribution to understanding the multifaceted impacts of mass incarceration, both on individuals and society at large. By addressing the gap in knowledge regarding the health and safety implications of incarceration, we aim to inform policy discussions and advocate for reforms that prioritize the well-being of incarcerated individuals.
+
+This article is structured as follows: In @sec-data, we provide insights into the origin of the dataset utilized in the original paper, outlining the methods employed for data collection and emphasizing key features. Moving on to @sec-result, we replicate the original study and present three empirical markers of "mass incarceration." In @sec-dis, we delve into the health effects of mass incarceration on both offenders and prison staff during the epidemic. Additionally, we critically evaluate the study's limitations and propose directions for future analyses to complement this discussion.
+      
+
 
 # Data {#sec-data}
 
@@ -58,6 +67,8 @@ Survey of Prison Inmates (2016) (Bureau of Justice Statistics 1994, 2004a, 2004b
 
 ## Methodology
 All data are not obtained directly through surveys or sampling statistics; rather, they are derived through meticulous processing and calculation based on pre-existing datasets.
+
+By comprehensively understanding the dynamics within prisons, this paper aims to contribute to the discourse on mass incarceration and advocate for positive reforms. Additionally, the paper replicates and builds upon Bruce Western's findings.Data cleaning and analysis were conducted using the open-source statistical programming language `R`[@citeR],leveraging functionalities from the `tidyverse`[@tidyverse],`ggplot2`[@ggplot2],`dplyr`[@dplyr],`readr`[@readr],`tibble`[@tibble],`stringr`[@stringr],`haven`[@haven],`openxlsx`[@openxlsx],`janitor`[@janitor],`knitr`[@knitr]. 
 
 ## data cleaning and construction
 Accurate data cleansing and structuring are paramount in research. Given the extensive and varied raw data analyzed in the original paper Inside the Box: Safety, Health, and Isolation in Prison (@western2021inside) and the lack of detailed explanation regarding data processing methods by the original author, Figures 1, 2, 4, 5, 6, and 7 are derived from processed data provided by the original author, albeit with a distinct focus in visualization. For figure 2, we obtained the updated version of the original data and expanded it by incorporating data from an additional 5 countries to enhance comprehensiveness. @tbl-country
@@ -83,12 +94,13 @@ kable(data, format = "markdown", booktabs = TRUE) %>%
 ## Measurement
 For @fig-over
 The Bureau of Justice Statistics (BJS) conducts thorough data collection and analysis on the populations incarcerated in both state and federal prisons, as well as local jails, across the United States. Utilizing diverse sources such as surveys, administrative records, and inmate censuses, BJS produces precise estimates of the total number of individuals held in correctional facilities. 
+
 For @fig-admit and @fig-plane,original data comes from two prison questionnaires    
 For example, the sample for the 2004 survey was drawn from two different documents. The primary archive includes a list of 1,549 state prisons from the June 30, 2000, BJS 2000 Census of State and Federal Correctional Facilities. The secondary archive includes 36 prisons open between June 30, 2000, and April 1, 2003. The sampling design required a stratified two-stage selection process. In the initial phase, 14 male and 7 female facilities were identified based on the gender ratio within prisons. The remaining facilities are divided into 16 levels based on geographic region and the male and female population within each prison. The weighting procedure involves assigning each inmate a base weight and three adjustment factors to obtain the final weight for the survey. Data was collected through face-to-face interviews with prisoners using computer-assisted personal interviewing techniques.
 
 
 
-# Result
+# Result {#sec-result}
 ## Over trend
 
 Mass incarceration, as outlined by Garland (2001), refers to the historical phenomenon characterized by exceptionally high rates of imprisonment, particularly affecting marginalized populations. It signifies the confinement of vast numbers of individuals within prisons, coupled with the enduring legal and financial barriers they encounter upon reintegration into society, as described by Younes (2014).
@@ -197,7 +209,7 @@ print(plot)
 
 ```
 
-# Discussion
+# Discussion {#sec-dis}
 ## rehabilitating
 Rehabilitation refers to a series of interventions aimed at enhancing functioning and diminishing disability in individuals with health conditions, taking into account their interactions with the environment.Academics studying mass incarceration identify the 1970s as a critical juncture in U.S. penal history, characterized by a transition towards stricter punitive measures and a widespread belief that traditional rehabilitation methods were ineffective(@Rehabilitation).
 
